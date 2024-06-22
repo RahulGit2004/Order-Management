@@ -16,9 +16,8 @@ public class UserServiceImpl implements UserService {
     public boolean register(String username, String password, String email, String role) {
         if (role.equalsIgnoreCase("Owner")) {
             // change id string to int and then provide id through service but user does not have idea about his id
-            User owner = new User()
+
         } else {
-            User user = new User()
         }
 
         return false;
