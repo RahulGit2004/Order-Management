@@ -59,5 +59,14 @@ public class Restaurant {
     public void setItemList(List<FoodItem> itemList) {
         this.itemList = itemList;
     }
+
+    public Restaurant(String ownerId, String restaurantId, String name, String address, String phoneNumber) {
+        this.ownerId = ownerId;
+        this.restaurantId = restaurantId;
+        this.name = name;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+
+    }
 }
 
