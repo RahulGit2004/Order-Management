@@ -19,11 +19,9 @@ public class UserInterface {
 //- Each restaurant will have a list of food items.
 
 
-
 //3. Food Item Management
 //- Restaurant owners can add, update, and delete food items in their restaurant.
 //- Each food item will have a name, description, price, and availability status.
-
 
 
 //4. Order Management
@@ -32,15 +30,15 @@ public class UserInterface {
 //- Restaurant owners can view and update the status of orders.
 
     static Helper help = new Helper();
-   static UserController userController = new UserController();
+    static UserController userController = new UserController();
     static Scanner scanner = new Scanner(System.in);
-    public static void main(String[] args) {
 
+    public static void main(String[] args) {
 
 
         System.out.println("Get ready for Food Order System");
         System.out.println("-------------------------------------");
-        int choice =  0;
+        int choice = 0;
 //
 //        userController.registerUser("rahul","rahul@123","rahul@gmail","owner");
 //        userController.registerUser("aman","aman@123","aman@gmail","user");
@@ -51,60 +49,48 @@ public class UserInterface {
 //            System.out.println(l1);
 //        }
 
-       while (true) {
-           System.out.println("1: Sign Up");
-           System.out.println("2: Sign In");
-           System.out.println("3: Exit");
-           System.out.print("Enter your choice : ");
-           try {
-               choice = scanner.nextInt();
-           } catch (InputMismatchException e) {
-               System.out.println("Not Valid Choice, Enter an Integer Number");
-               scanner.nextLine();
-               continue;
-           }
-           switch (choice) {
-               case 1:
-                   scanner.nextLine(); // consuming line
-                   signUp();
-                   break;
-               case 2:
-                   scanner.nextLine(); // consuming line
-                   signIn();
-                   break;
-               case 3:
-                   System.out.println("Exiting ........");
-                   return;
-               default:
-                   System.out.println("Enter A Valid Number!!!");
-           }
+        while (true) {
+            System.out.println("1: Sign Up");
+            System.out.println("2: Sign In");
+            System.out.println("3: Exit");
+            System.out.print("Enter your choice : ");
+            try {
+                choice = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Not Valid Choice, Enter an Integer Number");
+                scanner.nextLine();
+                continue;
+            }
+            switch (choice) {
+                case 1:
+                    scanner.nextLine(); // consuming line
+                    signUp();
+                    break;
+                case 2:
+                    scanner.nextLine(); // consuming line
+                    signIn();
+                    break;
+                case 3:
+                    System.out.println("Visit Again!!!");
+                    System.out.println("Exiting ........");
+                    return;
+                default:
+                    System.out.println("Enter A Valid Number!!!");
+            }
 
-       }
+        }
 
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     static void signUp() {
         String username;
-        while (true){
+        while (true) {
             System.out.print("Enter username: ");
             username = scanner.nextLine();
-            if (help.checkUserName(username)){
+            if (help.checkUserName(username)) {
                 break;
-            }
-            else {
+            } else {
                 System.out.println("Invalid Username!");
             }
         }
@@ -167,18 +153,20 @@ public class UserInterface {
         }
         String id = help.generateRandomNumberId(username.length());
 
-       userController.registerUser(id,username,password,email,role,phoneNumber);
+        userController.registerUser(id, username, password, email, role, phoneNumber);
 
     }
-    static void signIn(){
+
+    static void signIn() {
         System.out.print("Enter Username : ");
-        String username =  scanner.nextLine();
+        String username = scanner.nextLine();
         System.out.print("Enter password : ");
-        String password =  scanner.nextLine();
-        userController.loginUser(username,password);
-        String id = userController.getIdByUsernameAndPassword(username,password);
-        String role = userController.getRoleByUsernameAndPassword(username,password);
-        String phone = userController.getPhoneByUsernameAndPassword(username, password);
+        String password = scanner.nextLine();
+        boolean successLogin = userController.loginUser(username, password);
+        if (successLogin) {
+            String id = userController.getIdByUsernameAndPassword(username, password);
+            String role = userController.getRoleByUsernameAndPassword(username, password);
+            String phone = userController.getPhoneByUsernameAndPassword(username, password);
 
 
 //        while (true) {
@@ -187,50 +175,78 @@ public class UserInterface {
                 // if owner :- add, update, delete (foodItem)
                 // if owner :- view and update the status of orders.
 
+                int choice;
+                while (true) {
+                    System.out.println("--------For Owner--------");
+                    System.out.println();
+                    System.out.println("1: View Profile");
+                    System.out.println("2: Create a Restaurant");
+                    System.out.println("3: Update a Restaurant");
+                    System.out.println("4: Delete a Restaurant");
+                    System.out.println("5: List of Restaurant");
+                    System.out.println("Restaurants By Phone Number");
+                    System.out.println("--------------------------");
+                    System.out.println("Enter Your Choice");
+                    try {
+                        choice = scanner.nextInt();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid choice,  Enter a valid Integer Number");
+                        scanner.nextLine();
+                        continue;
+                    }
+                    switch (choice){
+                        case 1:
+                            System.out.println("-------Owner Profile List-------");
+
+
+
+
+                    }
+
+                }
+
+
             } else {
                 // if customer :- view their profile, place order, view order history
                 int choice;
-               while (true) {
-                   System.out.println("---------Menu For Customer---------");
-                   System.out.println();
-                   System.out.println("1: View Profile");
-                   System.out.println("2: Place Order");
-                   System.out.println("3: View Order History");
-                   System.out.println("4: Sign Out");
+                while (true) {
+                    System.out.println("---------Menu For Customer---------");
+                    System.out.println();
+                    System.out.println("1: View Profile");
+                    System.out.println("2: Place Order");
+                    System.out.println("3: View Order History");
+                    System.out.println("4: Sign Out");
 
 
-                   System.out.print("Enter Your Choice : ");
-                   try{
-                       choice = scanner.nextInt();
-                   } catch (InputMismatchException e) {
-                       System.out.println("Invalid choice,  Enter a valid Integer Number");
-                       scanner.nextLine();
-                       continue;
-                   }
-                   switch (choice) {
-                       case 1:
-                           List<String> profileList = userController.getUserProfile(id); // would be add more things in profile
-                           System.out.println("-------Customer Profile List-------");
-                           for (String profile : profileList) {
-                               System.out.println(profile);
-                           }
-                           break;
+                    System.out.print("Enter Your Choice : ");
+                    try {
+                        choice = scanner.nextInt();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid choice,  Enter a valid Integer Number");
+                        scanner.nextLine();
+                        continue;
+                    }
+                    switch (choice) {
+                        case 1:
+                            List<String> profileList = userController.getUserProfile(id); // would be add more things in profile
+                            System.out.println("-------Customer Profile List-------");
+                            for (String profile : profileList) {
+                                System.out.println(profile);
+                            }
+                            break;
 
-                       case 4:
-                           System.out.println("Sign Out Success!!");
-                           return;
+                        case 4:
+                            System.out.println("Sign Out Success!!");
+                            return;
 
+                    }
 
-
-
-                   }
-
-               }
-
+                }
 
 
             }
 
         }
     }
+}
 //}

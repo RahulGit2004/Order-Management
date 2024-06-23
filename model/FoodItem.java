@@ -3,10 +3,10 @@ package model;
 public class FoodItem {
     private String foodItemId;
     private String restaurantId;
-    private String name;
+    private String itemName;
     private String description;
     private String price;
-    private boolean availability = true;
+    private boolean availability = false;
 
     public String getFoodItemId() {
         return foodItemId;
@@ -24,12 +24,12 @@ public class FoodItem {
         this.restaurantId = restaurantId;
     }
 
-    public String getName() {
-        return name;
+    public String getItemName() {
+        return itemName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     public String getDescription() {
@@ -56,4 +56,12 @@ public class FoodItem {
         this.availability = availability;
     }
 
+    public FoodItem(String foodItemId, String restaurantId, String itemName, String description, String price, boolean availability) {
+        this.foodItemId = foodItemId;
+        this.restaurantId = restaurantId;
+        this.itemName = itemName;
+        this.description = description;
+        this.price = price;
+        this.availability = availability;
+    }
 }

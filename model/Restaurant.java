@@ -6,11 +6,19 @@ import java.util.List;
 public class Restaurant {
     private String restaurantId;
     private String ownerId;
-    private String name;
+    private String restaurantName;
     private String address;
     private String phoneNumber;
+    private boolean activeRestaurant = false;
     private List<FoodItem> itemList = new ArrayList<>();
 
+    public boolean isActiveRestaurant() {
+        return activeRestaurant;
+    }
+
+    public void setActiveRestaurant(boolean activeRestaurant) {
+        this.activeRestaurant = activeRestaurant;
+    }
 
     public String getRestaurantId() {
         return restaurantId;
@@ -28,12 +36,12 @@ public class Restaurant {
         this.ownerId = ownerId;
     }
 
-    public String getName() {
-        return name;
+    public String getRestaurantName() {
+        return restaurantName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
     }
 
     public String getAddress() {
@@ -60,10 +68,10 @@ public class Restaurant {
         this.itemList = itemList;
     }
 
-    public Restaurant(String ownerId, String restaurantId, String name, String address, String phoneNumber) {
+    public Restaurant(String ownerId, String restaurantId, String restaurantName, String address, String phoneNumber) {
         this.ownerId = ownerId;
         this.restaurantId = restaurantId;
-        this.name = name;
+        this.restaurantName = restaurantName;
         this.address = address;
         this.phoneNumber = phoneNumber;
 

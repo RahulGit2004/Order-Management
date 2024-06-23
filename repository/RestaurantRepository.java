@@ -11,7 +11,15 @@ public interface RestaurantRepository {
 
     boolean updateRestaurant(String restaurantId, String restaurantName, String address);
 
-    List<String> getRestaurantByPhoneNumber(String phoneNumber);
+    List<String> listOfRestaurantByPhone(String phoneNumber);
+
+    Restaurant getRestaurantOwnerByPhoneAndRestaurantId(String phoneNumber, String restaurantId);
+
+    Restaurant deleteRestaurant(String restaurantId);
+
+    List<String> listOfRestaurants();
+
+    String getRestaurantIdByName(String restaurantName);
 
 //    - `findByOwnerId(String ownerId)`
 }

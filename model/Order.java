@@ -9,7 +9,7 @@ public class Order {
     private String customerId;
     private String restaurantId;
     private String totalPrice;
-    //  status either be pending, inprocess, complete
+    //  status either be pending, in-progress, complete
     private String status;
     private List<FoodItem> itemList = new ArrayList<>();
 
@@ -59,5 +59,13 @@ public class Order {
 
     public void setItemList(List<FoodItem> itemList) {
         this.itemList = itemList;
+    }
+
+    public Order(String orderId, String customerId, String restaurantId, String totalPrice, String status) {
+        this.orderId = orderId;
+        this.customerId = customerId;
+        this.restaurantId = restaurantId;
+        this.totalPrice = totalPrice;
+        this.status = status;
     }
 }
