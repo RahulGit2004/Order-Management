@@ -71,7 +71,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                 if (restaurantOwner == null) {
                     return "Owner Does not have this Restaurant!";
                 } else {
-                    // rest1 :- if restaurant delete ---> there will be no order history, order would not be placed
+                    // rest1 :-
                     //      rest2 ----->  would not be show restaurant, not show any item of that restaurant
                     restaurantRepo.deleteRestaurant(restaurantId);
                     return "Restaurant Removed Success.";
@@ -91,7 +91,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public Restaurant getRestaurantOwnerByPhoneAndRestaurantId(String ownerPhoneNumber, String restaurantId) {
-        return restaurantRepo.getRestaurantOwnerByPhoneAndRestaurantId(ownerPhoneNumber,restaurantId);
+        return restaurantRepo.getRestaurantOwnerByPhoneAndRestaurantId(ownerPhoneNumber, restaurantId);
     }
 
     @Override
@@ -108,6 +108,52 @@ public class RestaurantServiceImpl implements RestaurantService {
         }
         return restId;
     }
+
+    @Override
+    public List<Restaurant> getAllRestaurantsByPhone(String phone) {
+        List<Restaurant> restaurants = restaurantRepo.getAllRestaurantsByPhone(phone);
+        if (restaurants.isEmpty()) {
+            System.out.println("You have no any Restaurants!!");
+            return null;
+        } else {
+            return restaurants;
+        }
+    }
+
+    @Override
+    public boolean isCorrectId(String restId) {
+        return restaurantRepo.isCorrectId(restId);
+    }
+
+    @Override
+    public Restaurant detailsOfRestaurant(String restaurantId, String ownerPhone) {
+        User owner = userService.findOwnerByPhoneNumber(ownerPhone);
+        if (owner == null) {
+            System.out.println("Sorry! You are not Authorize for this action....");
+            return null;
+        } else {
+            Restaurant restaurant = restaurantRepo.findRestaurantByRestaurantId(restaurantId);
+            if (restaurant == null) {
+                System.out.println("Restaurant Not Found....");
+                return null;
+            } else {
+                Restaurant restaurantOwner = restaurantRepo.getRestaurantOwnerByPhoneAndRestaurantId(ownerPhone, restaurantId);
+                if (restaurantOwner == null) {
+                    System.out.println("You are Not Owner Of This restaurant..");
+                    return null;
+                } else {
+                    Restaurant restaurants = restaurantRepo.detailsOfRestaurant(restaurantId);
+                    if (restaurants == null) {
+                        System.out.println("No Details Available of This Restaurant....");
+                        return null;
+                    } else {
+                        return restaurants;
+                    }
+                }
+            }
+        }
+    }
+
 
     @Override
     public List<String> listOfRestaurantByPhone(String phoneNumber) {

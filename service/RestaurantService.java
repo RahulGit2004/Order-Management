@@ -7,7 +7,7 @@ import java.util.List;
 public interface RestaurantService {
     boolean createRestaurant(String ownerId, String restaurantId, String restaurantName, String address, String phoneNumber);
 
-    String updateRestaurant(String restaurantId, String phoneNumber, String restaurantName,  String address);
+    String updateRestaurant(String restaurantId, String phoneNumber, String restaurantName, String address);
 
     List<String> listOfRestaurantByPhone(String phoneNumber);
 
@@ -20,7 +20,12 @@ public interface RestaurantService {
     Restaurant findRestaurantByRestaurantId(String restaurantId);
 
     String getRestaurantIdByName(String restaurantName);
-//    - `createRestaurant(Restaurant restaurant)` (done)    ::-- ned to use
+
+    List<Restaurant> getAllRestaurantsByPhone(String phone);
+
+     boolean isCorrectId(String restId);//    - `createRestaurant(Restaurant restaurant)` (done)    ::-- ned to use
+
+    Restaurant detailsOfRestaurant(String restaurantId, String ownerPhone);
 //            - `updateRestaurant(String restaurantId, Restaurant restaurant)`
 //            - `deleteRestaurant(String restaurantId)`
 //            - `getRestaurantsByOwnerId(String ownerId)`

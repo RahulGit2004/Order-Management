@@ -21,5 +21,11 @@ public interface RestaurantRepository {
 
     String getRestaurantIdByName(String restaurantName);
 
+    List<Restaurant> getAllRestaurantsByPhone(String phone);
+
+    boolean isCorrectId(String restId);
+
+    Restaurant detailsOfRestaurant(String restaurantId);
+
 //    - `findByOwnerId(String ownerId)`
 }

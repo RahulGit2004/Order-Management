@@ -1,5 +1,6 @@
 package controller;
 
+import model.Restaurant;
 import service.impl.RestaurantServiceImpl;
 
 import java.util.List;
@@ -38,9 +39,19 @@ public class RestaurantController {
     public List<String> listOfRestaurants(){
         return restaurantService.listOfRestaurants();   // compare with null
     }
-
+    public Restaurant detailsOfRestaurant(String restaurantId, String ownerPhone) {
+        return restaurantService.detailsOfRestaurant(restaurantId,ownerPhone);
+    }
     // extra
     public String getRestaurantIdByName(String restaurantName){
         return restaurantService.getRestaurantIdByName(restaurantName);
+    }
+
+    public List<Restaurant> getAllRestaurantsByPhone(String phone) {
+        return restaurantService.getAllRestaurantsByPhone(phone);
+    }
+
+    public boolean isCorrectId(String restaurantID) {
+        return restaurantService.isCorrectId(restaurantID);
     }
 }

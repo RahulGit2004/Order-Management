@@ -8,6 +8,7 @@ import java.util.List;
 
 public class RestaurantRepoImpl implements RestaurantRepository {
     private static RestaurantRepoImpl restaurantRepo;
+
     public static synchronized RestaurantRepoImpl getInstance() {
         if (restaurantRepo == null) {
             restaurantRepo = new RestaurantRepoImpl();
@@ -16,9 +17,7 @@ public class RestaurantRepoImpl implements RestaurantRepository {
     }
 
 
-
-
-    List<Restaurant> restaurantList = new ArrayList<>();
+    private final List<Restaurant> restaurantList = new ArrayList<>();
 
     @Override
     public Restaurant saveRestaurant(Restaurant restaurant) {
@@ -51,13 +50,15 @@ public class RestaurantRepoImpl implements RestaurantRepository {
 
     @Override
     public List<String> listOfRestaurantByPhone(String phoneNumber) {
-        List<String> restaurantList = new ArrayList<>();
-        for (Restaurant restaurant : this.restaurantList) {
+        List<String> restaurants = new ArrayList<>();
+        for (Restaurant restaurant : restaurantList) {
             if (restaurant.getPhoneNumber().equals(phoneNumber)) {
-                restaurantList.add(restaurant.getRestaurantName());
+                if (restaurant.isActiveRestaurant()) {
+                    restaurants.add(restaurant.getRestaurantName());
+                }
             }
         }
-        return restaurantList;
+        return restaurants;
     }
 
     // because one owner have multiple restaurant.
@@ -73,7 +74,7 @@ public class RestaurantRepoImpl implements RestaurantRepository {
 
     @Override
     public Restaurant deleteRestaurant(String restaurantId) {
-        for (Restaurant restaurant: restaurantList) {
+        for (Restaurant restaurant : restaurantList) {
             if (restaurant.getRestaurantId().equals(restaurantId)) {
                 restaurant.setActiveRestaurant(false);
                 return restaurant;
@@ -85,21 +86,55 @@ public class RestaurantRepoImpl implements RestaurantRepository {
 
     @Override
     public List<String> listOfRestaurants() {
-        List<String> restaurantList = new ArrayList<>();
-        for (Restaurant restaurant : this.restaurantList) {
-            restaurantList.add(restaurant.getRestaurantName());
+        List<String> restaurants = new ArrayList<>();
+        for (Restaurant restaurant : restaurantList) {
+            restaurants.add(restaurant.getRestaurantName());
         }
-        return restaurantList;
+        return restaurants;
     }
 
     @Override
     public String getRestaurantIdByName(String restaurantName) {
-        for (Restaurant restaurant : restaurantList){
+        for (Restaurant restaurant : restaurantList) {
             if (restaurant.getRestaurantName().equals(restaurantName)) {
                 return restaurant.getRestaurantId();
             }
         }
         return null;
     }
+
+    @Override
+    public List<Restaurant> getAllRestaurantsByPhone(String phone) {
+        List<Restaurant> restaurants = new ArrayList<>();
+        for (Restaurant restaurant : restaurantList) {
+            if (restaurant.getPhoneNumber().equals(phone)) {
+                if (restaurant.isActiveRestaurant()) {
+                    restaurants.add(restaurant);
+                }
+            }
+        }
+        return restaurants;
+    }
+
+    @Override
+    public boolean isCorrectId(String restId) {
+        for (Restaurant restaurant : restaurantList) {
+            if (restaurant.getRestaurantId().equals(restId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public Restaurant detailsOfRestaurant(String restaurantId) {
+        for (Restaurant restaurant : restaurantList) {
+            if (restaurant.getRestaurantId().equals(restaurantId)) {
+                return restaurant;
+            }
+        }
+        return null;
+    }
+
 
 }

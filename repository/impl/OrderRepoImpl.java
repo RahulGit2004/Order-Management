@@ -34,4 +34,57 @@ public class OrderRepoImpl implements OrderRepository {
         }
         return orders;
     }
+
+    @Override
+    public List<Order> listOfOrderByRestaurantId(String restaurantId) {
+        List<Order> orders = new ArrayList<>();
+        for (Order order:orderList){
+            if (order.getRestaurantId().equals(restaurantId)) {
+                orders.add(order);
+            }
+        }
+        return orders;
+    }
+
+    @Override
+    public Order updateOrderStatus(String restaurantId, String orderId, String status) {
+        for (Order order: orderList){
+            if (order.getRestaurantId().equals(restaurantId) && order.getOrderId().equals(orderId)) {
+                order.setStatus(status);
+                return order;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String getYourOrderStatus(String orderId) {
+        for (Order order:orderList){
+            if (order.getOrderId().equals(orderId)) {
+                return order.getStatus();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<String> listOfOrderIdByRestaurantId(String restaurantId) {
+        List<String> orders = new ArrayList<>();
+        for (Order order: orderList){
+            if (order.getRestaurantId().equals(restaurantId)) {
+                orders.add(order.getOrderId());
+            }
+        }
+        return orders;
+    }
+
+    @Override
+    public boolean isCorrectOrderID(String orderID) {
+        for (Order order:orderList){
+            if (order.getOrderId().equals(orderID)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

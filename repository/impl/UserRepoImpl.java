@@ -57,9 +57,10 @@ public class UserRepoImpl implements UserRepository {
     public List<String> getProfileById(String id) {
         List<String> profile =  new ArrayList<>();
         for (User user : userList) {
-            if (user.getUserId() == id) {
+            if (user.getUserId().equals(id)) {
                 profile.add(user.getUsername());
                 profile.add(user.getEmail());
+                profile.add(user.getPhoneNumber());
                 return profile;
             }
         }
