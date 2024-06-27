@@ -6,7 +6,6 @@ import model.User;
 import repository.impl.FoodItemRepoImpl;
 import service.FoodItemService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FoodItemServiceImpl implements FoodItemService {
@@ -25,7 +24,7 @@ public class FoodItemServiceImpl implements FoodItemService {
 
 
     @Override
-    public String addFoodItem(String restaurantId, String itemId, String itemName, String ownerPhone, String description, String itemPrice) {
+    public String addFoodItem(String restaurantId, String itemId, String itemName, String ownerPhone, String description, float itemPrice) {
 
         User owner = userService.findOwnerByPhoneNumber(ownerPhone);
         if (owner == null) {
@@ -39,11 +38,11 @@ public class FoodItemServiceImpl implements FoodItemService {
                 if (restaurantOwner == null) {
                     return "You are Not Owner Of This Restaurant!!!";
                 } else {
-                    boolean isAlreadyItem = foodItemRepo.isAlreadyItemByItemName(itemName);
+                    boolean isAlreadyItem = foodItemRepo.isAlreadyItemByItemName(itemName,restaurantId);
                     if (isAlreadyItem) {
                         FoodItem item = new FoodItem(itemId, restaurantId, itemName, description, itemPrice, true);
                         foodItemRepo.addItem(item);
-                        return "Item Added Success";
+                        return "Item name : "+itemName+" is successfully added In your Menu..";
                     } else {
                         return "Item with Same Name Exists.";
                     }
@@ -53,7 +52,7 @@ public class FoodItemServiceImpl implements FoodItemService {
     }
 
     @Override
-    public String updateFoodItem(String restaurantId, String itemId, String ownerPhone, String itemName, String description) {
+    public String updateFoodItem(String restaurantId, String itemId, String ownerPhone, String itemName, String description, float itemPrice) {
         User owner = userService.findOwnerByPhoneNumber(ownerPhone);
         if (owner == null) {
             return "Sorry! You are not Authorize for this action";
@@ -66,7 +65,7 @@ public class FoodItemServiceImpl implements FoodItemService {
                 if (restaurantOwner == null) {
                     return "You are Not Owner Of This Restaurant!!!";
                 } else {
-                    foodItemRepo.updateItem(itemId, itemName, description);
+                    foodItemRepo.updateItem(itemId, itemName, description, itemPrice);
                     return "Item Updated Success!";
 
                 }
@@ -90,10 +89,10 @@ public class FoodItemServiceImpl implements FoodItemService {
                 } else {
                     // check item list is not empty
                     foodItemRepo.deleteFoodItem(itemId);
+                    return "Food Item Removed";
                 }
             }
         }
-        return "";
     }
 
     @Override
@@ -124,21 +123,53 @@ public class FoodItemServiceImpl implements FoodItemService {
     }
 
     @Override
-    public String getItemIdByName(String itemName) {
-        String itemId = foodItemRepo.getItemIdByName(itemName);
-        if (itemId == null) {
+    public String getItemNameById(String foodItemId) {
+        String itemName = foodItemRepo.getItemNameById(foodItemId);
+        if (itemName == null) {
             return "Item Not Found!";
         }
-        return itemId;
+        return itemName;
     }
 
     @Override
-    public int calcPriceById(String itemId) {
-        String price = foodItemRepo.itemPriceByItemId(itemId);
-        if (price == null) {
-            return -1;
+    public float getPriceByItemId(String itemId) {
+        return foodItemRepo.itemPriceByItemId(itemId);
+    }
+
+    @Override
+    public List<FoodItem> listOFItemNameWithItemId(String restaurantId) {
+        List<FoodItem> items = foodItemRepo.listOFItemNameWithItemId(restaurantId);
+        if (items.isEmpty()) {
+            System.out.println("Not Items On This Restaurant....");
+            return null;
+        }
+        return items;
+    }
+
+    @Override
+    public boolean isCorrectItemId(String foodId, String restaurantId) {
+        return foodItemRepo.isCorrectItemId(foodId, restaurantId);
+    }
+
+    @Override
+    public String updateItemStatus(String foodId, String restId, boolean status, String phone) {
+        User owner = userService.findOwnerByPhoneNumber(phone);
+        if (owner == null){
+            return "You are not Authorize for this action.";
         } else {
-            return Integer.parseInt(price);
+            Restaurant restaurant = restaurantService.findRestaurantByRestaurantId(restId);
+            if (restaurant == null){
+                return "Restaurant Does Not Found!";
+            } else {
+                Restaurant ownerRestaurant = restaurantService.getRestaurantOwnerByPhoneAndRestaurantId(phone,restId);
+                if (ownerRestaurant == null){
+                    return "You are not Owner Of this Restaurant...";
+                } else {
+                   foodItemRepo.updateItemStatus(restId,foodId,status);
+                   return "Food Status Updated Success";
+
+                }
+            }
         }
     }
 

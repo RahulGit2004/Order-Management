@@ -1,5 +1,6 @@
 package controller;
 
+import model.FoodItem;
 import model.Restaurant;
 import service.impl.RestaurantServiceImpl;
 
@@ -32,7 +33,7 @@ public class RestaurantController {
     }
 
 
-    public List<String> listOfRestaurantByPhone(String phoneNumber){
+    public List<Restaurant> listOfRestaurantByPhone(String phoneNumber){
         return restaurantService.listOfRestaurantByPhone(phoneNumber); // compare with null (check ui in not null)
     }
 
@@ -43,8 +44,8 @@ public class RestaurantController {
         return restaurantService.detailsOfRestaurant(restaurantId,ownerPhone);
     }
     // extra
-    public String getRestaurantIdByName(String restaurantName){
-        return restaurantService.getRestaurantIdByName(restaurantName);
+    public String getRestaurantNameById(String restaurantID){
+        return restaurantService.getRestaurantNameById(restaurantID);
     }
 
     public List<Restaurant> getAllRestaurantsByPhone(String phone) {
@@ -53,5 +54,17 @@ public class RestaurantController {
 
     public boolean isCorrectId(String restaurantID) {
         return restaurantService.isCorrectId(restaurantID);
+    }
+
+    public List<FoodItem> listOFItemNameWithItemId(String restaurantId) {
+        return restaurantService.listOFItemNameWithItemId(restaurantId);
+    }
+
+    public List<Restaurant> listOFRestaurantWithId() {
+        return restaurantService.listOFRestaurantWithId();
+    }
+
+    public boolean isAvailableRestaurant(String phone) {
+        return restaurantService.isAvailableRestaurant(phone);
     }
 }

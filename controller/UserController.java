@@ -1,6 +1,7 @@
 package controller;
 
 
+import model.User;
 import service.impl.UserServiceImpl;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class UserController {
     public String  getIdByUsernameAndPassword(String username, String password) {
         return userService.getIdByUsernameAndPassword(username, password);
     }
-    public List<String> getUserProfile(String id){
+    public List<User> getUserProfile(String id){
         return userService.getUserProfile(id);
     }
 

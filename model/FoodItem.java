@@ -5,7 +5,7 @@ public class FoodItem {
     private String restaurantId;
     private String itemName;
     private String description;
-    private String price;
+    private float price;
     private boolean availability = false;
 
     public String getFoodItemId() {
@@ -40,11 +40,11 @@ public class FoodItem {
         this.description = description;
     }
 
-    public String getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
@@ -56,7 +56,7 @@ public class FoodItem {
         this.availability = availability;
     }
 
-    public FoodItem(String foodItemId, String restaurantId, String itemName, String description, String price, boolean availability) {
+    public FoodItem(String foodItemId, String restaurantId, String itemName, String description, float price, boolean availability) {
         this.foodItemId = foodItemId;
         this.restaurantId = restaurantId;
         this.itemName = itemName;

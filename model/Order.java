@@ -8,10 +8,10 @@ public class Order {
     private String orderId;
     private String customerId;
     private String restaurantId;
-    private String totalPrice;
+    private float totalPrice;
     //  status either be pending, in-progress, complete
     private String status;
-    private List<FoodItem> itemList = new ArrayList<>();
+    private List<FoodItem> itemList;
 
     public String getOrderId() {
         return orderId;
@@ -37,11 +37,11 @@ public class Order {
         this.restaurantId = restaurantId;
     }
 
-    public String getTotalPrice() {
+    public float getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(String totalPrice) {
+    public void setTotalPrice(float totalPrice) {
         this.totalPrice = totalPrice;
     }
 
@@ -61,11 +61,12 @@ public class Order {
         this.itemList = itemList;
     }
 
-    public Order(String orderId, String customerId, String restaurantId, String totalPrice, String status) {
+    public Order(String orderId, String customerId, String restaurantId, float totalPrice, String status,List<FoodItem> items) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.restaurantId = restaurantId;
         this.totalPrice = totalPrice;
         this.status = status;
+        this.itemList = items;
     }
 }

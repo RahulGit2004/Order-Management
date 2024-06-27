@@ -62,8 +62,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<String> getUserProfile(String id) {
-        List<String> profileList = userRepo.getProfileById(id);
+    public List<User> getUserProfile(String id) {
+        List<User> profileList = userRepo.getProfileById(id);
         if (profileList == null) {
             System.out.println("Invalid Id");
             return null;

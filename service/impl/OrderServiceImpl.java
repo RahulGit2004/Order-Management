@@ -26,8 +26,8 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public String placeOrder(String orderId, String customerId, String restaurantId, String totalPrice) {
-        Order order = new Order(orderId, customerId, restaurantId, totalPrice, "In-Progress");
+    public String placeOrder(String orderId, String customerId, String restaurantId, float totalPrice, List<FoodItem> items) {
+        Order order = new Order(orderId, customerId, restaurantId, totalPrice, "In-Progress",items);
         orderRepo.addOrder(order);
         return "Your Order is Successfully Placed.";
     }
@@ -44,23 +44,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<String> getOrderByRestaurantId(String restaurantId) {
+    public List<Order> getOrderByRestaurantId(String restaurantId) {
         List<Order> orders = orderRepo.listOfOrderByRestaurantId(restaurantId);
         if (orders.isEmpty()){
             System.out.println("No Orders In Your Restaurant!");
             return null;
         } else {
-            List<String> list = new ArrayList<>();
-            for (Order order : orders) {
-                list.add(order.getStatus());
-                list.add(order.getOrderId());
-                list.add(order.getTotalPrice());
-                for (FoodItem item: order.getItemList()) {
-                    list.add(item.getItemName());
-                    list.add(item.getPrice());
-                }
-            }
-            return list;
+            return orders;
         }
 
     }
@@ -74,11 +64,11 @@ public class OrderServiceImpl implements OrderService {
         } else {
             List<String> list = new ArrayList<>();
             for (Order order: orders){
-                list.add(order.getTotalPrice());
+//                list.add(order.getTotalPrice());
                 list.add(order.getStatus());
                 for (FoodItem item: order.getItemList()){
                     list.add(item.getItemName());
-                    list.add(item.getPrice());
+//                    list.add(item.getPrice());
                 }
             }
             return list;
@@ -116,8 +106,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<String> listOfOrderIdByRestaurantId(String restaurantId) {
-        List<String> orders = orderRepo.listOfOrderIdByRestaurantId(restaurantId);
+    public List<Order> listOfOrderIdByRestaurantId(String restaurantId) {
+        List<Order> orders = orderRepo.listOfOrderIdByRestaurantId(restaurantId);
         if (orders.isEmpty()){
             System.out.println("There is No Order in Restaurants...");
             return null;

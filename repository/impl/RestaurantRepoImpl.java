@@ -1,5 +1,6 @@
 package repository.impl;
 
+import model.FoodItem;
 import model.Restaurant;
 import repository.RestaurantRepository;
 
@@ -49,12 +50,12 @@ public class RestaurantRepoImpl implements RestaurantRepository {
     }
 
     @Override
-    public List<String> listOfRestaurantByPhone(String phoneNumber) {
-        List<String> restaurants = new ArrayList<>();
+    public List<Restaurant> listOfRestaurantByPhone(String phoneNumber) {
+        List<Restaurant> restaurants = new ArrayList<>();
         for (Restaurant restaurant : restaurantList) {
             if (restaurant.getPhoneNumber().equals(phoneNumber)) {
                 if (restaurant.isActiveRestaurant()) {
-                    restaurants.add(restaurant.getRestaurantName());
+                    restaurants.add(restaurant);
                 }
             }
         }
@@ -94,10 +95,10 @@ public class RestaurantRepoImpl implements RestaurantRepository {
     }
 
     @Override
-    public String getRestaurantIdByName(String restaurantName) {
+    public String getRestaurantNameById(String restaurantId) {
         for (Restaurant restaurant : restaurantList) {
-            if (restaurant.getRestaurantName().equals(restaurantName)) {
-                return restaurant.getRestaurantId();
+            if (restaurant.getRestaurantId().equals(restaurantId)) {
+                return restaurant.getRestaurantName();
             }
         }
         return null;
@@ -134,6 +135,31 @@ public class RestaurantRepoImpl implements RestaurantRepository {
             }
         }
         return null;
+    }
+
+    @Override
+    public List<FoodItem> listOFItemNameWithItemId(String restaurantId) {
+        for (Restaurant restaurant : restaurantList) {
+            if (restaurant.getRestaurantId().equals(restaurantId)) {
+                return restaurant.getItemList();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<Restaurant> listOFRestaurantWithId() {
+        return restaurantList;
+    }
+
+    @Override
+    public boolean isAvailableRestaurant(String phone) {
+        for (Restaurant restaurant : restaurantList) {
+            if (restaurant.getPhoneNumber().equals(phone)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

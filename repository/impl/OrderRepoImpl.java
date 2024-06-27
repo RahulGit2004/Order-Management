@@ -1,5 +1,6 @@
 package repository.impl;
 
+import model.FoodItem;
 import model.Order;
 import repository.OrderRepository;
 
@@ -40,7 +41,11 @@ public class OrderRepoImpl implements OrderRepository {
         List<Order> orders = new ArrayList<>();
         for (Order order:orderList){
             if (order.getRestaurantId().equals(restaurantId)) {
-                orders.add(order);
+                for (FoodItem item: order.getItemList()){
+                    if (item.isAvailability()){
+                        orders.add(order);
+                    }
+                }
             }
         }
         return orders;
@@ -68,11 +73,11 @@ public class OrderRepoImpl implements OrderRepository {
     }
 
     @Override
-    public List<String> listOfOrderIdByRestaurantId(String restaurantId) {
-        List<String> orders = new ArrayList<>();
+    public List<Order> listOfOrderIdByRestaurantId(String restaurantId) {
+        List<Order> orders = new ArrayList<>();
         for (Order order: orderList){
             if (order.getRestaurantId().equals(restaurantId)) {
-                orders.add(order.getOrderId());
+                orders.add(order);
             }
         }
         return orders;

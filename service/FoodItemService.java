@@ -1,5 +1,7 @@
 package service;
 
+import model.FoodItem;
+
 import java.util.List;
 
 public interface FoodItemService {
@@ -14,10 +16,10 @@ public interface FoodItemService {
 
 
 
-    String addFoodItem(String restaurantId, String itemId, String itemName, String ownerPhone, String description, String itemPrice);
+    String addFoodItem(String restaurantId, String itemId, String itemName, String ownerPhone, String description, float itemPrice);
 
 
-    String updateFoodItem(String restaurantId, String itemId, String ownerPhone, String itemName, String description);
+    String updateFoodItem(String restaurantId, String itemId, String ownerPhone, String itemName, String description,float itemPrice);
 
     String deleteFoodItem(String restaurantId, String itemId, String ownerPhone);
 
@@ -26,7 +28,13 @@ public interface FoodItemService {
     List<String> listOfItemNameWithPrice(String restaurantId);
 
 
-    String getItemIdByName(String itemName);
+    String getItemNameById(String foodItemId);
 
-    int calcPriceById(String itemId);
+    float getPriceByItemId(String itemId);
+
+    List<FoodItem> listOFItemNameWithItemId(String restaurantId);
+
+    boolean isCorrectItemId(String foodId, String restaurantId);
+
+    String updateItemStatus(String foodId, String restId, boolean status, String phone);
 }

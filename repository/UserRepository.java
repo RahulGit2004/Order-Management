@@ -16,7 +16,7 @@ public interface UserRepository {
     User findByPassword(String password);
     String getIdByUsernameAndPassword(String username, String password);
 
-    List<String> getProfileById(String id);
+    List<User> getProfileById(String id);
 
     String getRoleByUsernameAndPassword(String username, String password);
 

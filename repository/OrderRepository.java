@@ -15,7 +15,7 @@ public interface OrderRepository {
 
     String getYourOrderStatus(String orderId);
 
-    List<String> listOfOrderIdByRestaurantId(String restaurantId);
+    List<Order> listOfOrderIdByRestaurantId(String restaurantId);
 
     boolean isCorrectOrderID(String orderID);
 //    - `findByCustomerId(String customerId)`

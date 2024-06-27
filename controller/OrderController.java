@@ -1,5 +1,6 @@
 package controller;
 
+import model.FoodItem;
 import model.Order;
 import service.impl.OrderServiceImpl;
 
@@ -17,19 +18,19 @@ public class OrderController {
 
 
     // when placing  order show list of restaurant with id.
-    public String placeOrder(String orderId, String customerId, String restaurantId, String totalPrice) {
-        return orderService.placeOrder(orderId, customerId, restaurantId, totalPrice);
+    public String placeOrder(String orderId, String customerId, String restaurantId, float totalPrice,List<FoodItem> items) {
+        return orderService.placeOrder(orderId, customerId, restaurantId, totalPrice,items);
     }
 
     public List<Order> listOfOrderByCustomerId(String customerId) {
         return orderService.listOfOrderByCustomerId(customerId);
     }
 
-    public List<String> getOrdersByCustomerId(String customerId) {
-        return orderService.getOrdersByCustomerId(customerId); // compare with null
-    }
+//    public List<String> getOrdersByCustomerId(String customerId) {
+//        return orderService.getOrdersByCustomerId(customerId); // compare with null
+//    }
 
-    public List<String> getOrderByRestaurantId(String restaurantId) {
+    public List<Order> getOrderByRestaurantId(String restaurantId) {
         return orderService.getOrderByRestaurantId(restaurantId); // compare with null
     }
 
@@ -42,7 +43,7 @@ public class OrderController {
         return orderService.getYourOrderStatus(orderId);
     }
 
-    public List<String> listOfOrderIdByRestaurantId(String restaurantID) {
+    public List<Order> listOfOrderIdByRestaurantId(String restaurantID) {
         return orderService.listOfOrderIdByRestaurantId(restaurantID);
     }
 

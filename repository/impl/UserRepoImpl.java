@@ -54,13 +54,11 @@ public class UserRepoImpl implements UserRepository {
     }
 
     @Override
-    public List<String> getProfileById(String id) {
-        List<String> profile =  new ArrayList<>();
+    public List<User> getProfileById(String id) {
+        List<User> profile =  new ArrayList<>();
         for (User user : userList) {
             if (user.getUserId().equals(id)) {
-                profile.add(user.getUsername());
-                profile.add(user.getEmail());
-                profile.add(user.getPhoneNumber());
+               profile.add(user);
                 return profile;
             }
         }

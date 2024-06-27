@@ -1,5 +1,6 @@
 package service.impl;
 
+import model.FoodItem;
 import model.Restaurant;
 import model.User;
 import repository.impl.RestaurantRepoImpl;
@@ -100,13 +101,13 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public String getRestaurantIdByName(String restaurantName) {
-        String restId = restaurantRepo.getRestaurantIdByName(restaurantName);
-        if (restId == null) {
+    public String getRestaurantNameById(String restaurantId) {
+        String restName = restaurantRepo.getRestaurantNameById(restaurantId);
+        if (restName == null) {
             System.out.println("Restaurant Not Found.");
-            return "Please Enter Proper Name!";
+            return "Please Enter Correct Id!";
         }
-        return restId;
+        return restName;
     }
 
     @Override
@@ -154,15 +155,40 @@ public class RestaurantServiceImpl implements RestaurantService {
         }
     }
 
+    @Override
+    public List<FoodItem> listOFItemNameWithItemId(String restaurantId) {
+        List<FoodItem> items = restaurantRepo.listOFItemNameWithItemId(restaurantId);
+        if (items == null) {
+            System.out.println("There is no item in this Restaurant....");
+            return null;
+        }
+        return items;
+    }
 
     @Override
-    public List<String> listOfRestaurantByPhone(String phoneNumber) {
+    public List<Restaurant> listOFRestaurantWithId() {
+        List<Restaurant> restaurants = restaurantRepo.listOFRestaurantWithId();
+        if (restaurants.isEmpty()){
+            System.out.println("There Is No Restaurant Created....");
+            return null;
+        }
+        return restaurants;
+    }
+
+    @Override
+    public boolean isAvailableRestaurant(String phone) {
+        return restaurantRepo.isAvailableRestaurant(phone);
+    }
+
+
+    @Override
+    public List<Restaurant> listOfRestaurantByPhone(String phoneNumber) {
         User owner = userService.findOwnerByPhoneNumber(phoneNumber);
         if (owner == null) {
             System.out.println("Owner Not Found");
             return null;
         } else {
-            List<String> restaurants = restaurantRepo.listOfRestaurantByPhone(phoneNumber);
+            List<Restaurant> restaurants = restaurantRepo.listOfRestaurantByPhone(phoneNumber);
             if (restaurants.isEmpty()) {
                 System.out.println("No Restaurants Available!!");
                 return null;

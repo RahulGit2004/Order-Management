@@ -2,7 +2,10 @@ import controller.FoodItemController;
 import controller.OrderController;
 import controller.RestaurantController;
 import controller.UserController;
+import model.FoodItem;
+import model.Order;
 import model.Restaurant;
+import model.User;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -177,7 +180,7 @@ public class UserInterface {
             String phone = userController.getPhoneByUsernameAndPassword(username, password);
 
             // id generating.
-            String itemId;
+            String itemId = null;
             String orderId;
             String restaurantId = help.generateRandomNumberId(3);
 
@@ -192,7 +195,7 @@ public class UserInterface {
                 int choice, option;
                 while (true) {
 
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
 
 
 //                    4 for get all details of restaurant
@@ -217,16 +220,22 @@ public class UserInterface {
                     }
                     scanner.nextLine();
                     if (choice == 1) {
-                        int p = 1;
                         System.out.println("-------Owner Profile List-------");
-                        List<String> profiles = userController.getUserProfile(userId);
+                        List<User> profiles = userController.getUserProfile(userId);
 
-                        for (String profile : profiles) {
-                            System.out.println(p + " " + profile);
-                            p++;
+                        for (User profile : profiles) {
+                            System.out.println("ID : " + profile.getUserId());
+                            System.out.println("Name : " + profile.getUsername());
+                            System.out.println("Email ID : " + profile.getEmail());
+                            System.out.println("Phone : " + profile.getPhoneNumber());
+                            System.out.println("Your Role : " + profile.getRole());
                         }
 
-                    } else if (choice == 2) {
+                    }
+                    //todo :- if a owner has a restaurant then i have to go on all 13 apis.
+//                    boolean isRestaurant = restaurantController.isAvailableRestaurant(phone);
+//                    if (isRestaurant)
+                    else if (choice == 2) {
                         System.out.println("--------------------------");
                         System.out.print("Enter Name of Your Restaurant : ");
                         String restName = scanner.nextLine();
@@ -234,7 +243,7 @@ public class UserInterface {
                         String restAdd = scanner.nextLine();
                         boolean restaurant = restaurantController.createRestaurant(userId, restaurantId, restName, restAdd, phone);
                         if (restaurant) {
-                            System.out.println("Congratulation for Your New Restaurant");
+                            System.out.println("Congratulation for Your New Restaurant.....");
                             System.out.println("Your Restaurant name is  :   " + restName);
 
                             while (true) {
@@ -268,6 +277,7 @@ public class UserInterface {
                                 System.out.println("10: List Of Food Item Of a Restaurant");
                                 System.out.println("11: All Orders Of Your Restaurant");
                                 System.out.println("12: Update Food Items Status (available/not)");
+                                System.out.println("13: Sign Out Your Account");
 
 
                                 System.out.println("--------------------------");
@@ -289,7 +299,7 @@ public class UserInterface {
                                     String address = scanner.nextLine();
                                     boolean res = restaurantController.createRestaurant(userId, restId, name, address, phone);
                                     if (res) {
-                                        System.out.println("Congratulation for Your New Restaurant");
+                                        System.out.println("Congratulation for Your New Restaurant....");
                                         System.out.println("Your Restaurant name is  :   " + name);
                                         Thread.sleep(500);
                                     }
@@ -346,12 +356,14 @@ public class UserInterface {
                                         }
                                     }
                                 } else if (option == 4) {
-                                    List<String> restaurants = restaurantController.listOfRestaurantByPhone(phone);
-                                    int i=0;
-                                    System.out.println("--------------------------");
-                                    System.out.println("-----All Your Restaurant List-----");
-                                    for (String x : restaurants) {
-                                        System.out.println(++i+":      "+x);
+                                    // doing here to change listOfString to listOfRestaurant
+                                    List<Restaurant> restaurants = restaurantController.listOfRestaurantByPhone(phone);
+                                    if (restaurants != null) {
+                                        System.out.println("--------------------------");
+                                        System.out.println("-----All Your Restaurant List-----");
+                                        for (Restaurant x : restaurants) {
+                                            System.out.println(x.getRestaurantName());
+                                        }
                                     }
                                 } else if (option == 5) {
                                     System.out.println("--------------------------");
@@ -369,25 +381,27 @@ public class UserInterface {
                                             boolean isCorrectId = restaurantController.isCorrectId(restId);
                                             if (isCorrectId) {
                                                 Thread.sleep(400);
-                                                List<String> orders = orderController.listOfOrderIdByRestaurantId(restId);
+                                                List<Order> orders = orderController.listOfOrderIdByRestaurantId(restId);
                                                 if (orders != null) {
                                                     System.out.println("---------List Of Order Id-----");
-                                                    for (String x : orders) {
-                                                        System.out.println(x);
+                                                    for (Order order : orders) {
+                                                        System.out.println("Order ID : " + order.getOrderId());
                                                     }
-                                                    System.out.println("Enter order Id to Update Status : ");
                                                     while (true) {
+                                                        System.out.println("Enter order Id to Update Status : ");
                                                         String orderID = scanner.nextLine();
                                                         boolean isCorrectOrderID = orderController.isCorrectOrderID(orderID);
                                                         if (isCorrectOrderID) {
                                                             while (true) {
                                                                 System.out.println("1: Pending\n2: In-Progress\n3: Complete");
-                                                                System.out.println("Enter Status for Order ID : " + orderID + "   :-  ");
+
+                                                                System.out.print("Enter Status for Order ID : " + orderID + "   :-  ");
                                                                 int num;
                                                                 try {
                                                                     num = scanner.nextInt();
                                                                 } catch (InputMismatchException e) {
                                                                     System.out.println("Enter Valid Integer");
+                                                                    scanner.nextLine();
                                                                     continue;
                                                                 }
                                                                 scanner.nextLine();
@@ -399,7 +413,7 @@ public class UserInterface {
                                                                 } else {
                                                                     status = "Complete";
                                                                 }
-                                                                System.out.println(orderController.updateOrderStatus(restaurantId, orderID, status, userId, phone));
+                                                                System.out.println(orderController.updateOrderStatus(restId, orderID, status, userId, phone));
                                                                 Thread.sleep(500);
                                                                 break;
                                                             }
@@ -417,7 +431,7 @@ public class UserInterface {
                                     }
                                 } else if (option == 6) {
                                     List<Restaurant> restaurants = restaurantController.getAllRestaurantsByPhone(phone);
-                                    if (restaurants!=null) {
+                                    if (restaurants != null) {
                                         System.out.println("---------List of Your Restaurants-------");
                                         System.out.println("RestaurantId\tRestaurant Name");
                                         for (Restaurant res : restaurants) {
@@ -426,16 +440,16 @@ public class UserInterface {
                                         while (true) {
                                             System.out.println("Enter Restaurant Id to know Details : ");
                                             String restId = scanner.nextLine();
-                                            boolean isCorrectId =  restaurantController.isCorrectId(restId);
-                                            if (isCorrectId){
+                                            boolean isCorrectId = restaurantController.isCorrectId(restId);
+                                            if (isCorrectId) {
                                                 int a = 0;
-                                                Restaurant details =  restaurantController.detailsOfRestaurant(restId,phone);
+                                                Restaurant details = restaurantController.detailsOfRestaurant(restId, phone);
                                                 System.out.println("-----Details of Your Restaurant------");
-                                                System.out.println(++a+":  Restaurant Id : "+details.getRestaurantId());
-                                                System.out.println(++a+":  Restaurant Owner Id : "+details.getOwnerId());
-                                                System.out.println(++a+":  Restaurant Owner Phone Number : "+details.getPhoneNumber());
-                                                System.out.println(++a+":  Restaurant Name : "+details.getRestaurantName());
-                                                System.out.println(++a+":  Restaurant Address : "+details.getAddress());
+                                                System.out.println(++a + ":  Restaurant Id : " + details.getRestaurantId());
+                                                System.out.println(++a + ":  Restaurant Owner Id : " + details.getOwnerId());
+                                                System.out.println(++a + ":  Restaurant Owner Phone Number : " + details.getPhoneNumber());
+                                                System.out.println(++a + ":  Restaurant Name : " + details.getRestaurantName());
+                                                System.out.println(++a + ":  Restaurant Address : " + details.getAddress());
                                                 Thread.sleep(500);
                                                 break;
                                             } else {
@@ -446,18 +460,293 @@ public class UserInterface {
                                 } else if (option == 7) {
                                     // generate here food Item Id..
                                     itemId = help.generateRandomNumberId(3);
-                                    // todo complete here
-                                    System.out.println(foodController.addItem(restaurantId,itemId,itemName,phone,description,itemPrice));
 
+                                    List<Restaurant> restaurants = restaurantController.getAllRestaurantsByPhone(phone);
+                                    if (restaurants != null) {
+                                        System.out.println("---------List of Your Restaurants-------");
+                                        System.out.println("RestaurantId\tRestaurant Name");
+                                        for (Restaurant res : restaurants) {
+                                            System.out.println(res.getRestaurantId() + " \t\t\t" + res.getRestaurantName());
+                                        }
+                                        while (true) {
+                                            System.out.println("Enter Restaurant Id for Add Item of Your Restaurant : ");
+                                            String restId = scanner.nextLine();
+                                            boolean isCorrectId = restaurantController.isCorrectId(restId);
+                                            if (isCorrectId) {
+                                                System.out.print("Enter item name : ");
+                                                String itemName = scanner.nextLine();
+                                                float itemPrice;
+                                                while (true) {
+                                                    try {
+                                                        System.out.print("Enter Item Price : ");
+                                                        itemPrice = scanner.nextFloat();
+                                                        break;
+                                                    } catch (InputMismatchException e) {
+                                                        System.out.println("Enter a Valid Price...");
+                                                        scanner.nextLine();
+                                                    }
+                                                }
+                                                scanner.nextLine(); // for new line
+                                                System.out.print("Enter description of Item (" + itemName + ")  : ");
+                                                String description = scanner.nextLine();
+                                                System.out.println(foodController.addItem(restId, itemId, itemName, phone, description, itemPrice));
+                                                Thread.sleep(500);
+                                                break;
+                                            } else {
+                                                System.out.println("Enter correct Restaurant Id....");
+                                            }
+                                        }
+                                    }
+
+                                } else if (option == 8) {
+                                    List<Restaurant> restaurants = restaurantController.getAllRestaurantsByPhone(phone);
+                                    if (restaurants != null) {
+                                        System.out.println("---------List of Your Restaurants-------");
+                                        System.out.println("RestaurantId\tRestaurant Name");
+                                        for (Restaurant res : restaurants) {
+                                            System.out.println(res.getRestaurantId() + " \t\t\t" + res.getRestaurantName());
+                                        }
+                                        while (true) {
+                                            System.out.println("Enter Restaurant Id for Update Item of Your Restaurant : ");
+                                            String restId = scanner.nextLine();
+                                            boolean isCorrectId = restaurantController.isCorrectId(restId);
+                                            if (isCorrectId) {
+                                                // it showing all items but not items BY provided restaurant id..
+                                                List<FoodItem> itemList = foodController.listOfItemsByRestaurantId(restId);
+                                                if (itemList != null) {
+                                                    System.out.println("-------Food Items of Your Restaurant--------");
+                                                    System.out.println("FoodItemId\tItem Name");
+                                                    for (FoodItem x : itemList) {
+                                                        System.out.println(x.getFoodItemId() + " \t\t" + x.getItemName());
+                                                    }
+                                                    while (true) {
+                                                        System.out.print("Enter Item Id To Update Item : ");
+                                                        String foodId = scanner.nextLine();
+                                                        boolean isCorrectItemId = foodController.isCorrectItemId(foodId, restId);
+                                                        if (isCorrectItemId) {
+                                                            System.out.print("Enter item name : ");
+                                                            String itemName = scanner.nextLine();
+                                                            float itemPrice;
+                                                            while (true) {
+                                                                try {
+                                                                    System.out.print("Enter Item Price : ");
+                                                                    itemPrice = scanner.nextFloat();
+                                                                    break;
+                                                                } catch (InputMismatchException e) {
+                                                                    System.out.println("Enter a Valid Price...");
+                                                                    scanner.nextLine();
+                                                                }
+                                                            }
+                                                            scanner.nextLine(); // for new line
+                                                            System.out.print("Enter description of Item (" + itemName + ")  : ");
+                                                            String description = scanner.nextLine();
+                                                            System.out.println(foodController.updateItem(restId, foodId, phone, itemName, description, itemPrice));
+                                                            Thread.sleep(500);
+                                                            break;
+                                                        } else {
+                                                            System.out.println("Enter Correct Item Id...");
+                                                        }
+                                                    }
+                                                }
+                                                break;
+                                            } else {
+                                                System.out.println("Enter correct Restaurant ID...");
+                                            }
+                                        }
+                                    }
+                                } else if (option == 9) {
+                                    // todo if item delete change order status to pending
+                                    List<Restaurant> restaurants = restaurantController.getAllRestaurantsByPhone(phone);
+                                    if (restaurants != null) {
+                                        System.out.println("---------List of Your Restaurants-------");
+                                        System.out.println("RestaurantId\tRestaurant Name");
+                                        for (Restaurant res : restaurants) {
+                                            System.out.println(res.getRestaurantId() + " \t\t\t" + res.getRestaurantName());
+                                        }
+                                        while (true) {
+                                            System.out.println("Enter Restaurant Id for Delete Item of Your Restaurant : ");
+                                            String restId = scanner.nextLine();
+                                            boolean isCorrectId = restaurantController.isCorrectId(restId);
+                                            if (isCorrectId) {
+                                                List<FoodItem> itemList = foodController.listOfItemsByRestaurantId(restId);
+                                                if (itemList != null) {
+                                                    System.out.println("-------Food Items of Your Restaurant--------");
+                                                    System.out.println("FoodItemId\tItem Name");
+                                                    for (FoodItem x : itemList) {
+                                                        System.out.println(x.getFoodItemId() + " \t\t" + x.getItemName());
+                                                    }
+                                                    while (true) {
+                                                        System.out.print("Enter Item Id To Delete Item : ");
+                                                        String foodId = scanner.nextLine();
+                                                        boolean isCorrectItemId = foodController.isCorrectItemId(foodId, restId);
+                                                        if (isCorrectItemId) {
+                                                            System.out.println(foodController.deleteItem(restId, foodId, phone));
+                                                            Thread.sleep(400);
+                                                            break;
+                                                        } else {
+                                                            System.out.println("Enter Correct Item Id");
+                                                        }
+                                                    }
+                                                    break;
+                                                }
+                                                break;
+                                            } else {
+                                                System.out.println("Enter Correct Restaurant ID...");
+                                            }
+                                        }
+                                    }
+                                } else if (option == 10) {
+                                    List<Restaurant> restaurants = restaurantController.getAllRestaurantsByPhone(phone);
+                                    if (restaurants != null) {
+                                        System.out.println("---------List of Your Restaurants-------");
+                                        System.out.println("RestaurantId\tRestaurant Name");
+                                        for (Restaurant res : restaurants) {
+                                            System.out.println(res.getRestaurantId() + " \t\t\t" + res.getRestaurantName());
+                                        }
+                                        while (true) {
+                                            System.out.print("Enter Restaurant Id To know List Of Restaurant : ");
+                                            String restId = scanner.nextLine();
+                                            boolean isCorrectId = restaurantController.isCorrectId(restId);
+                                            if (isCorrectId) {
+                                                List<FoodItem> itemList = foodController.listOfItemsByRestaurantId(restId);
+                                                if (itemList != null) {
+                                                    System.out.println("-------Food Items of Your Restaurant--------");
+                                                    System.out.println("FoodItemId\tItem Name");
+                                                    for (FoodItem x : itemList) {
+                                                        System.out.println(x.getFoodItemId() + " \t\t" + x.getItemName());
+                                                    }
+                                                    Thread.sleep(400);
+                                                    break;
+                                                }
+                                                break;
+                                            } else {
+                                                System.out.println("Enter Correct Restaurant Id...");
+                                            }
+
+                                        }
+                                    }
+
+                                } else if (option == 11) {
+                                    List<Restaurant> restaurants = restaurantController.getAllRestaurantsByPhone(phone);
+                                    if (restaurants != null) {
+                                        System.out.println("---------List of Your Restaurants-------");
+                                        System.out.println("RestaurantId\tRestaurant Name");
+                                        for (Restaurant res : restaurants) {
+                                            System.out.println(res.getRestaurantId() + " \t\t\t" + res.getRestaurantName());
+                                        }
+                                        while (true) {
+
+                                            System.out.print("Enter Restaurant Id To know List Of Restaurant : ");
+                                            String restId = scanner.nextLine();
+                                            boolean isCorrectId = restaurantController.isCorrectId(restId);
+                                            if (isCorrectId) {
+                                                //todo update(wait for re run)
+                                                List<Order> orderLists = orderController.getOrderByRestaurantId(restId);
+                                                if (orderLists != null) {
+                                                    String restaurantName = restaurantController.getRestaurantNameById(restId);
+                                                    //todo add item itemName here......
+                                                    System.out.println("-------------------------------");
+                                                    System.out.println("All Orders Of Restaurant : " + restaurantName);
+                                                    for (Order order : orderLists) {
+                                                        System.out.println("Order ID : " + order.getOrderId());
+                                                        System.out.println("Customer ID : " + order.getCustomerId());
+                                                        System.out.println("Order Status : " + order.getStatus());
+                                                        System.out.println("Total Bill amount : " + order.getTotalPrice());
+                                                        System.out.println();
+                                                        System.out.println("-------------------------------");
+//                                                        System.out.println();
+                                                    }
+                                                    Thread.sleep(400);
+                                                    break;
+                                                }
+                                                break;
+                                            } else {
+                                                System.out.println("Enter Correct Restaurant Id....");
+                                            }
+                                        }
+                                    }
+                                } else if (option == 12) {
+                                    List<Restaurant> restaurants = restaurantController.getAllRestaurantsByPhone(phone);
+                                    if (restaurants != null) {
+                                        System.out.println("---------List of Your Restaurants-------");
+                                        System.out.println("RestaurantId\tRestaurant Name");
+                                        for (Restaurant res : restaurants) {
+                                            System.out.println(res.getRestaurantId() + " \t\t\t" + res.getRestaurantName());
+                                        }
+                                        while (true) {
+                                            System.out.print("Enter Restaurant Id for Update Food Item Status : ");
+                                            String restId = scanner.nextLine();
+                                            boolean isCorrectId = restaurantController.isCorrectId(restId);
+                                            if (isCorrectId) {
+                                                List<FoodItem> itemList = foodController.listOfItemsByRestaurantId(restId);
+                                                if (itemList != null) {
+                                                    System.out.println("-------Food Items of Your Restaurant--------");
+                                                    System.out.println("FoodItemId\tItem Name");
+                                                    for (FoodItem x : itemList) {
+                                                        System.out.println(x.getFoodItemId() + " \t\t" + x.getItemName());
+                                                    }
+                                                    while (true) {
+                                                        System.out.print("Enter Item Id To Update Item Status : ");
+                                                        String foodId = scanner.nextLine();
+                                                        boolean isCorrectItemId = foodController.isCorrectItemId(foodId, restId);
+                                                        if (isCorrectItemId) {
+                                                            System.out.println("1: Available\n2: Un Available");
+                                                            System.out.print("Enter Status : ");
+                                                            boolean status;
+                                                            int num;
+                                                            while (true) {
+                                                                try {
+                                                                    num = scanner.nextInt();
+                                                                } catch (InputMismatchException e) {
+                                                                    System.out.println("Enter Valid Number...");
+                                                                    scanner.nextLine();
+                                                                    continue;
+                                                                }
+                                                                scanner.nextLine(); // consume line
+                                                                if (num == 1) {
+                                                                    status = true;
+                                                                    System.out.println(foodController.updateItemStatus(foodId, restId, status, phone));
+                                                                    Thread.sleep(200);
+                                                                    break;
+                                                                } else if (num == 2) {
+                                                                    status = false;
+                                                                    System.out.println(foodController.updateItemStatus(foodId, restId, status, phone));
+                                                                    Thread.sleep(200);
+                                                                    break;
+                                                                } else {
+                                                                    System.out.println("Enter A Valid Option.....");
+                                                                }
+                                                            }
+                                                            break;
+                                                        } else {
+                                                            System.out.println("Enter Correct Item Id");
+                                                        }
+                                                    }
+                                                }
+                                                break;
+
+                                            } else {
+                                                System.out.println("Enter correct Restaurant ID...");
+                                            }
+                                        }
+                                    }
+                                } else if (option == 13) {
+                                    System.out.println("Logged Out Success....");
+                                    return;
+
+                                } else {
+                                    System.out.println("Enter a Valid Option....");
                                 }
                             }
-
-
                         } else {
                             System.out.println("You have No any Restaurant, Please Create Restaurant First");
                         }
+                    } else if (choice == 3) {
+                        System.out.println("Logged Out Success....");
+                        return;
+                    } else {
+                        System.out.println("Enter Valid Option....");
                     }
-
                 }
 
 
@@ -470,9 +759,8 @@ public class UserInterface {
                     System.out.println("1: View Profile");
                     System.out.println("2: Place Order");
                     System.out.println("3: View Order History");
-                    System.out.println("4: Sign Out");
-
-
+                    System.out.println("4: Get Your Order Status");
+                    System.out.println("5: Sign Out");
                     System.out.print("Enter Your Choice : ");
                     try {
                         choice = scanner.nextInt();
@@ -483,26 +771,175 @@ public class UserInterface {
                     }
                     switch (choice) {
                         case 1:
-                            List<String> profileList = userController.getUserProfile(userId); // would be add more things in profile
+                            List<User> profileList = userController.getUserProfile(userId); // would be add more things in profile
                             System.out.println("-------Customer Profile List-------");
-                            int p = 1;
-                            for (String profile : profileList) {
-                                System.out.println(p + " " + profile);
-                                p++;
+                            for (User profile : profileList) {
+                                System.out.println("ID : " + profile.getUserId());
+                                System.out.println("Name : " + profile.getUsername());
+                                System.out.println("Email ID : " + profile.getEmail());
+                                System.out.println("Phone : " + profile.getPhoneNumber());
+                                System.out.println("Your Role : " + profile.getRole());
                             }
                             break;
                         case 2:
-//                            System.out.println(orderController.placeOrder(orderId, userId, restaurantId, ));
+                            //todo calculate total price accordingly.
+                            // next linne issue restaurant Ic  // reworked(not resolved)
+                            // wrong total amount // reworked
+                            // view order history can give only orderId and Total_amount /// issue is in place order (data not saved in itemList)
+                            orderId = help.generateRandomNumberId(3);
+                            List<Restaurant> restaurants = restaurantController.listOFRestaurantWithId();
+                            if (restaurants != null) {
+                                System.out.println("---------List of Your Restaurants-------");
+                                System.out.println("RestaurantId\tRestaurant Name");
+                                for (Restaurant res : restaurants) {
+                                    System.out.println(res.getRestaurantId() + " \t\t\t" + res.getRestaurantName());
+                                }
+                                while (true) {
+                                    scanner.nextLine(); // consume nextLine
+                                    System.out.print("Enter RestaurantID from which you want to place your order : ");
+                                    String restId = scanner.next();
+                                    boolean isCorrectId = restaurantController.isCorrectId(restId);
+                                    if (isCorrectId) {
+                                        String restaurantName = restaurantController.getRestaurantNameById(restId);
+                                        // waiting here
+                                        // use infinite loop here until user said no.
+                                        float totalPrice = 0;
+                                        label:
+                                        while (true) {
+                                            List<FoodItem> items = foodController.listOfItemsByRestaurantId(restId);
+                                            if (items != null) {
+                                                System.out.println("------------" + restaurantName + " Menu------------");
+                                                System.out.println("ItemId\t\tFood Name\t\tPrice");
+                                                for (FoodItem item : items) {
+                                                    System.out.println(item.getFoodItemId() + " \t\t" + item.getItemName() + " \t\t" + item.getPrice());
+                                                }
+                                                while (true) {
+                                                    System.out.print("Enter ItemID for place Order : ");
+                                                    String foodId = scanner.next();
+                                                    boolean isCorrectFoodId = foodController.isCorrectItemId(foodId, restId);
+                                                    if (isCorrectFoodId) {
+//                                                        List<FoodItem> itemList = new ArrayList<>();
 
+                                                        String itemName = foodController.getItemNameById(foodId);
+                                                        System.out.print("Enter How much quantity you want to order of " + itemName + "  : ");
+                                                        int quantity;
+                                                        while (true) {
+                                                            try {
+                                                                quantity = scanner.nextInt();
+//                                                            scanner.nextLine();  // commented Yet(undo)
+                                                                break;
+                                                            } catch (InputMismatchException e) {
+                                                                System.out.println("Enter Valid Quantity..");
+                                                                scanner.nextLine();
+                                                            }
+//                                                        scanner.nextLine(); // commented yet
+                                                        }
+                                                        float price = foodController.getPriceByItemId(foodId);
+                                                        //todo calculate total amount accordingly..
+                                                        float i = 0;
+                                                        do {
+                                                            totalPrice += price;
+                                                            i++;
+                                                        } while (quantity > i);
+                                                        /// do you want to order more
+                                                        // yes :-
+
+//                                                    break;
+                                                        while (true) {
+//                                                           totalPrice = sum;
+                                                            System.out.println("Do you want to order more items (y/n):  ");
+                                                            String des = scanner.next();
+                                                            label2:
+//
+                                                            if (des.equals("y")) {
+                                                                continue label;
+                                                            } else if (des.equals("n")) {
+                                                                // bill amount issue
+                                                                System.out.println(orderController.placeOrder(orderId, userId, restId, totalPrice, items));
+                                                                Thread.sleep(400);
+                                                                System.out.println("Your Bill amount is : Rs. " + totalPrice + "/- only.");
+                                                                break label;
+                                                            } else {
+                                                                System.out.println("Enter y or n only..");
+                                                                continue;
+                                                            }
+                                                        }
+                                                    } else {
+                                                        System.out.println("Please Enter Correct Food Id....");
+                                                    }
+//                                                break;
+                                                }
+                                            }
+                                            break;
+                                        }
+                                        break;
+                                    } else {
+                                        System.out.println("Enter a Valid RestaurantID...");
+                                    }
+                                }
+                            }
+                            break;
+
+                        case 3:
+
+                            // use another way for get Order History.
+
+
+                            System.out.println("------------------------");
+                            System.out.println("-------Your Order History------");
+                            List<Order> orders = orderController.listOfOrderByCustomerId(userId);
+                            if (orders != null) {
+                                System.out.println("Food Name\t\tFood Price");
+                                for (Order order : orders) {
+                                    System.out.println(" \tOrder ID :  " + order.getOrderId());
+                                    for (FoodItem item : order.getItemList()) {
+                                        System.out.println(item.getItemName() + " \t\t\t" + item.getPrice());
+                                    }
+                                    System.out.println();
+                                    System.out.println("Total Amount : " + order.getTotalPrice());
+                                    System.out.println("------------------------");
+                                    System.out.println();
+                                }
+                                break;
+                            }
+                            break;
                         case 4:
+                            List<Order> orderList = orderController.listOfOrderByCustomerId(userId);
+                            if (orderList != null) {
+                                System.out.println("------------------------");
+                                for (Order order : orderList) {
+                                    System.out.println("Order Id : " + order.getOrderId());
+                                    System.out.println("Name of Items which you order in above Order Id...");
+                                    for (FoodItem item : order.getItemList()) {
+                                        // it is giving all item of provided id
+                                        System.out.println(item.getItemName());
+                                    }
+                                    System.out.println();
+                                    System.out.println("------------------------");
+                                    System.out.println();
+                                }
+
+                                while (true) {
+                                    System.out.print("Enter Order Id to know status Of your Order : ");
+                                    String orderID = scanner.next();
+                                    boolean isCorrectId = orderController.isCorrectOrderID(orderID);
+                                    if (isCorrectId) {
+                                        System.out.println("Your Order Status is : " + orderController.getYourOrderStatus(orderID));
+                                        break;
+                                    } else {
+                                        System.out.println("Enter Valid Order ID....");
+                                    }
+                                }
+                            }
+                            break;
+                        case 5:
                             System.out.println("Sign Out Success!!");
                             return;
-
+                        default:
+                            System.out.println("Enter a valid Option....");
                     }
 
                 }
-
-
             }
 
         }

@@ -1,15 +1,16 @@
 package service;
 
+import model.FoodItem;
 import model.Order;
 
 import java.util.List;
 
 public interface OrderService {
-    String placeOrder(String orderId, String customerId, String restaurantId, String totalPrice);
+    String placeOrder(String orderId, String customerId, String restaurantId, float totalPrice, List<FoodItem> items);
 
     List<Order> listOfOrderByCustomerId(String customerId);
 
-    List<String> getOrderByRestaurantId(String restaurantId);
+    List<Order> getOrderByRestaurantId(String restaurantId);
 
     List<String> getOrdersByCustomerId(String customerId);
 
@@ -17,7 +18,7 @@ public interface OrderService {
 
     String getYourOrderStatus(String orderId);
 
-    List<String> listOfOrderIdByRestaurantId(String restaurantId);
+    List<Order> listOfOrderIdByRestaurantId(String restaurantId);
 
     boolean isCorrectOrderID(String orderID);
     // placeOrder(Order order)

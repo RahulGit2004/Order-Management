@@ -9,7 +9,7 @@ public interface UserService {
 
     boolean loginUser(String username, String password);
 
-    List<String> getUserProfile(String id);
+    List<User> getUserProfile(String id);
 
     String getIdByUsernameAndPassword(String username, String password);
 
