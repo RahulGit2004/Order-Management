@@ -26,10 +26,6 @@ public class OrderController {
         return orderService.listOfOrderByCustomerId(customerId);
     }
 
-//    public List<String> getOrdersByCustomerId(String customerId) {
-//        return orderService.getOrdersByCustomerId(customerId); // compare with null
-//    }
-
     public List<Order> getOrderByRestaurantId(String restaurantId) {
         return orderService.getOrderByRestaurantId(restaurantId); // compare with null
     }

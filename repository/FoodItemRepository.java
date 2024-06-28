@@ -27,6 +27,8 @@ public interface FoodItemRepository {
 
     FoodItem updateItemStatus(String restId, String foodId, boolean status);
 
+    FoodItem foodItems(String foodId);
+
 
 //    - `findByRestaurantId(String restaurantId)`
 }

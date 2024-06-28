@@ -41,11 +41,8 @@ public class OrderRepoImpl implements OrderRepository {
         List<Order> orders = new ArrayList<>();
         for (Order order:orderList){
             if (order.getRestaurantId().equals(restaurantId)) {
-                for (FoodItem item: order.getItemList()){
-                    if (item.isAvailability()){
-                        orders.add(order);
-                    }
-                }
+                orders.add(order);
+
             }
         }
         return orders;

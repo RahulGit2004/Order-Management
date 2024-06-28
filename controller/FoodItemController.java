@@ -27,11 +27,6 @@ public class FoodItemController {
     public List<String> listOfItemByRestaurant(String restaurantId) {
         return itemService.listOfItemByRestaurantId(restaurantId); // compare with null of UI
     }
-
-    // extra
-    public List<String> listOfItemNameWithPrice(String restaurantId) {
-        return itemService.listOfItemNameWithPrice(restaurantId);
-    }
     public String getItemNameById(String foodItemId) {
         return itemService.getItemNameById(foodItemId);
     }
@@ -49,5 +44,8 @@ public class FoodItemController {
 
     public String updateItemStatus(String foodId, String restId, boolean status, String phone) {
         return itemService.updateItemStatus(foodId,restId,status,phone);
+    }
+    public FoodItem foodItems (String foodId){
+        return itemService.foodItems(foodId);
     }
 }

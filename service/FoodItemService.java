@@ -37,4 +37,6 @@ public interface FoodItemService {
     boolean isCorrectItemId(String foodId, String restaurantId);
 
     String updateItemStatus(String foodId, String restId, boolean status, String phone);
+
+    FoodItem foodItems(String foodId);
 }

@@ -173,4 +173,14 @@ public class FoodItemServiceImpl implements FoodItemService {
         }
     }
 
+    @Override
+    public FoodItem foodItems(String foodId) {
+        FoodItem items = foodItemRepo.foodItems(foodId);
+        if (items == null) {
+            System.out.println("Items not found!!");
+            return null;
+        }
+        return items;
+    }
+
 }

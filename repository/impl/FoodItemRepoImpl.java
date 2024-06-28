@@ -140,5 +140,15 @@ public class FoodItemRepoImpl implements FoodItemRepository {
         return null;
     }
 
+    @Override
+    public FoodItem foodItems(String foodId) {
+        for (FoodItem item: itemList){
+            if (item.getFoodItemId().equals(foodId)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
 
 }

@@ -2,6 +2,8 @@ import java.util.Random;
 import java.util.regex.Pattern;
 
 public class Helper {
+    private static final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,20}$";
+
     public boolean phoneNumberValidator(String phoneNumber) {
 
         if (phoneNumber == null) {
@@ -25,7 +27,6 @@ public class Helper {
         if (password.length() < 8) {
             return false;
         }
-
         if (!Character.isUpperCase(password.charAt(0))) {
             return false;
         }
@@ -56,18 +57,21 @@ public class Helper {
         return false;
     }
 
-    public boolean checkUserName(String username) {
-        if (username == null || username.isEmpty()) {
+    public boolean isValid(String name) {
+        if (name == null || name.isEmpty()) {
             return false;
         }else {
             return true;
         }
     }
-
-    public  boolean isValidEmail(String email) {
-        String regex = "^(.+)@(.+)$";
-        return Pattern.matches(regex, email);
+    public  boolean validatePassword(String password) {
+        return password != null && password.matches(PASSWORD_PATTERN);
     }
+
+//    public  boolean validatePassword(String password) {
+//        String regex = "^(.+)@(.+)$";
+//        return Pattern.matches(regex, password);
+//    }
 
 
     public  String generateRandomNumberId(int length) {
@@ -79,5 +83,14 @@ public class Helper {
         }
         return sb.toString();
     }
+    public  boolean verifyEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null || email.isEmpty()) {
+            return false;
+        }
+        return pat.matcher(email).matches();
+    }
+
 
 }

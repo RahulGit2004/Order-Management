@@ -64,4 +64,5 @@ public class FoodItem {
         this.price = price;
         this.availability = availability;
     }
+//    public FoodItem (String foodItemId, String itemName, String description, )
 }
