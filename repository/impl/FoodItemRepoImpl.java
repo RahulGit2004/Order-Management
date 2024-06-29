@@ -130,11 +130,9 @@ public class FoodItemRepoImpl implements FoodItemRepository {
     @Override
     public FoodItem updateItemStatus(String restId, String foodId, boolean status) {
         for (FoodItem item : itemList){
-            if (item.getRestaurantId().equals(restId)) {
-                if (item.getFoodItemId().equals(foodId)) {
+            if (item.getFoodItemId().equals(foodId) && item.getRestaurantId().equals(restId)) {
                     item.setAvailability(status);
                     return item;
-                }
             }
         }
         return null;
@@ -148,6 +146,17 @@ public class FoodItemRepoImpl implements FoodItemRepository {
             }
         }
         return null;
+    }
+
+    @Override
+    public List<FoodItem> itemListByRestaurant(String restId) {
+        List<FoodItem> items = new ArrayList<>();
+        for (FoodItem item : itemList) {
+            if ( item.getRestaurantId().equals(restId)) {
+                items.add(item);
+            }
+        }
+        return items;
     }
 
 

@@ -183,4 +183,14 @@ public class FoodItemServiceImpl implements FoodItemService {
         return items;
     }
 
+    @Override
+    public List<FoodItem> itemListByRestaurant(String restId) {
+        List<FoodItem> items = foodItemRepo.itemListByRestaurant(restId);
+        if (items.isEmpty()) {
+            System.out.println("There is no item available");
+            return null;
+        }
+        return items;
+    }
+
 }

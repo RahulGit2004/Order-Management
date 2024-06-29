@@ -29,6 +29,8 @@ public interface FoodItemRepository {
 
     FoodItem foodItems(String foodId);
 
+    List<FoodItem> itemListByRestaurant(String restId);
+
 
 //    - `findByRestaurantId(String restaurantId)`
 }

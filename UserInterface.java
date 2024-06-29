@@ -769,7 +769,7 @@ public class UserInterface {
                                     String restId = scanner.nextLine();
                                     boolean isCorrectId = restaurantController.isCorrectId(restId);
                                     if (isCorrectId) {
-                                        List<FoodItem> itemList = foodController.listOfItemsByRestaurantId(restId);
+                                        List<FoodItem> itemList = foodController.itemListByRestaurant(restId);
                                         if (itemList != null) {
                                             System.out.println("-------Food Items of Your Restaurant--------");
                                             System.out.println("FoodItemId\tItem Name");

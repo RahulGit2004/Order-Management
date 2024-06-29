@@ -39,4 +39,6 @@ public interface FoodItemService {
     String updateItemStatus(String foodId, String restId, boolean status, String phone);
 
     FoodItem foodItems(String foodId);
+
+    List<FoodItem> itemListByRestaurant(String restId);
 }

@@ -48,4 +48,8 @@ public class FoodItemController {
     public FoodItem foodItems (String foodId){
         return itemService.foodItems(foodId);
     }
+
+    public List<FoodItem> itemListByRestaurant(String restId) {
+        return itemService.itemListByRestaurant(restId);
+    }
 }
