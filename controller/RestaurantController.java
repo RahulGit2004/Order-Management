@@ -1,6 +1,5 @@
 package controller;
 
-import model.FoodItem;
 import model.Restaurant;
 import service.impl.RestaurantServiceImpl;
 
@@ -13,7 +12,13 @@ public class RestaurantController {
 //    Get restaurants by owner (done)
 
 
-
+    private static RestaurantController restaurantController;
+    public static synchronized RestaurantController getInstance(){
+        if (restaurantController == null) {
+            restaurantController = new RestaurantController();
+        }
+        return restaurantController;
+    }
     private final RestaurantServiceImpl restaurantService = RestaurantServiceImpl.getInstance();
 
 
@@ -36,8 +41,8 @@ public class RestaurantController {
     public List<Restaurant> listOfRestaurantByPhone(String phoneNumber){
         return restaurantService.listOfRestaurantByPhone(phoneNumber); // compare with null (check ui in not null)
     }
-    public Restaurant detailsOfRestaurant(String restaurantId, String ownerPhone) {
-        return restaurantService.detailsOfRestaurant(restaurantId,ownerPhone);
+    public Restaurant getDetailsOfRestaurantByRestaurantID(String restaurantId, String ownerPhone) {
+        return restaurantService.getDetailsOfRestaurantByRestaurantID(restaurantId,ownerPhone);
     }
     // extra
     public String getRestaurantNameById(String restaurantID){
@@ -52,12 +57,8 @@ public class RestaurantController {
         return restaurantService.isCorrectId(restaurantID);
     }
 
-//    public List<FoodItem> listOFItemNameWithItemId(String restaurantId) {
-//        return restaurantService.listOFItemNameWithItemId(restaurantId);
-//    }
-
-    public List<Restaurant> listOFRestaurantWithId() {
-        return restaurantService.listOFRestaurantWithId();
+    public List<Restaurant> getListOfRestaurant() {
+        return restaurantService.getListOfRestaurant();
     }
 
     public boolean isAvailableRestaurant(String phone) {

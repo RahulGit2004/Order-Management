@@ -9,6 +9,7 @@ import java.util.List;
 
 public class OrderRepoImpl implements OrderRepository {
     private static OrderRepoImpl orderRepo;
+
     public static synchronized OrderRepoImpl getInstance() {
         if (orderRepo == null) {
             orderRepo = new OrderRepoImpl();
@@ -17,7 +18,7 @@ public class OrderRepoImpl implements OrderRepository {
     }
 
 
-    private final List<Order> orderList =new ArrayList<>();
+    private final List<Order> orderList = new ArrayList<>();
 
     @Override
     public Order addOrder(Order order) {
@@ -28,7 +29,7 @@ public class OrderRepoImpl implements OrderRepository {
     @Override
     public List<Order> listOfOrderByCustomerId(String customerId) {
         List<Order> orders = new ArrayList<>();
-        for (Order order: orderList) {
+        for (Order order : orderList) {
             if (order.getCustomerId().equals(customerId)) {
                 orders.add(order);
             }
@@ -39,7 +40,7 @@ public class OrderRepoImpl implements OrderRepository {
     @Override
     public List<Order> listOfOrderByRestaurantId(String restaurantId) {
         List<Order> orders = new ArrayList<>();
-        for (Order order:orderList){
+        for (Order order : orderList) {
             if (order.getRestaurantId().equals(restaurantId)) {
                 orders.add(order);
 
@@ -50,7 +51,7 @@ public class OrderRepoImpl implements OrderRepository {
 
     @Override
     public Order updateOrderStatus(String restaurantId, String orderId, String status) {
-        for (Order order: orderList){
+        for (Order order : orderList) {
             if (order.getRestaurantId().equals(restaurantId) && order.getOrderId().equals(orderId)) {
                 order.setStatus(status);
                 return order;
@@ -61,7 +62,7 @@ public class OrderRepoImpl implements OrderRepository {
 
     @Override
     public String getYourOrderStatus(String orderId) {
-        for (Order order:orderList){
+        for (Order order : orderList) {
             if (order.getOrderId().equals(orderId)) {
                 return order.getStatus();
             }
@@ -72,7 +73,7 @@ public class OrderRepoImpl implements OrderRepository {
     @Override
     public List<Order> listOfOrderIdByRestaurantId(String restaurantId) {
         List<Order> orders = new ArrayList<>();
-        for (Order order: orderList){
+        for (Order order : orderList) {
             if (order.getRestaurantId().equals(restaurantId)) {
                 orders.add(order);
             }
@@ -82,8 +83,8 @@ public class OrderRepoImpl implements OrderRepository {
 
     @Override
     public boolean isCorrectOrderID(String orderID) {
-        for (Order order:orderList){
-            if (order.getOrderId().equals(orderID)){
+        for (Order order : orderList) {
+            if (order.getOrderId().equals(orderID)) {
                 return true;
             }
         }

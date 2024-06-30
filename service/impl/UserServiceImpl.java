@@ -57,8 +57,6 @@ public class UserServiceImpl implements UserService {
             System.out.println("Invalid Username!");
             return false;
         }
-
-
     }
 
     @Override

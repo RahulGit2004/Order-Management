@@ -51,16 +51,6 @@ public class FoodItemRepoImpl implements FoodItemRepository {
         return null;
     }
 
-    @Override
-    public List<String> listOfItemByRestaurantId(String restaurantId) {
-        List<String> items = new ArrayList<>();
-        for (FoodItem item : itemList) {
-            if (item.getRestaurantId().equals(restaurantId)) {
-                items.add(item.getItemName());
-            }
-        }
-        return items;
-    }
 
     @Override
     public boolean isAlreadyItemByItemName(String itemName, String restaurantId) {
@@ -73,20 +63,8 @@ public class FoodItemRepoImpl implements FoodItemRepository {
     }
 
     @Override
-    public List<String> listOfItemNameWithPrice(String restaurantId) {
-        List<String> items = new ArrayList<>();
-        for (FoodItem foodItem: itemList) {
-            if (foodItem.getRestaurantId().equals(restaurantId)) {
-                items.add(foodItem.getItemName());
-//                items.add(foodItem.getPrice());
-            }
-        }
-        return items;
-    }
-
-    @Override
     public String getItemNameById(String foodItemId) {
-        for (FoodItem foodItem: itemList) {
+        for (FoodItem foodItem : itemList) {
             if (foodItem.getFoodItemId().equals(foodItemId)) {
                 return foodItem.getItemName();
             }
@@ -95,8 +73,8 @@ public class FoodItemRepoImpl implements FoodItemRepository {
     }
 
     @Override
-    public float itemPriceByItemId(String itemId) {
-        for (FoodItem item: itemList){
+    public float getItemPriceByItemId(String itemId) {
+        for (FoodItem item : itemList) {
             if (item.getFoodItemId().equals(itemId)) {
                 return item.getPrice();
             }
@@ -105,10 +83,10 @@ public class FoodItemRepoImpl implements FoodItemRepository {
     }
 
     @Override
-    public List<FoodItem> listOFItemNameWithItemId(String restaurantId) {
+    public List<FoodItem> listOfItemNameAndItemIdByRestaurant(String restaurantId) {
         List<FoodItem> items = new ArrayList<>();
         for (FoodItem item : itemList) {
-            if (item.getRestaurantId().equals(restaurantId)){
+            if (item.getRestaurantId().equals(restaurantId)) {
                 if (item.isAvailability()) {
                     items.add(item);  // here is issue(it is adding all data one restaurant id is correct) (solved)
                 }
@@ -129,18 +107,18 @@ public class FoodItemRepoImpl implements FoodItemRepository {
 
     @Override
     public FoodItem updateItemStatus(String restId, String foodId, boolean status) {
-        for (FoodItem item : itemList){
+        for (FoodItem item : itemList) {
             if (item.getFoodItemId().equals(foodId) && item.getRestaurantId().equals(restId)) {
-                    item.setAvailability(status);
-                    return item;
+                item.setAvailability(status);
+                return item;
             }
         }
         return null;
     }
 
     @Override
-    public FoodItem foodItems(String foodId) {
-        for (FoodItem item: itemList){
+    public FoodItem findOrderedItemByFoodId(String foodId) {
+        for (FoodItem item : itemList) {
             if (item.getFoodItemId().equals(foodId)) {
                 return item;
             }
@@ -149,10 +127,10 @@ public class FoodItemRepoImpl implements FoodItemRepository {
     }
 
     @Override
-    public List<FoodItem> itemListByRestaurant(String restId) {
+    public List<FoodItem> getItemListByRestaurantId(String restId) {
         List<FoodItem> items = new ArrayList<>();
         for (FoodItem item : itemList) {
-            if ( item.getRestaurantId().equals(restId)) {
+            if (item.getRestaurantId().equals(restId)) {
                 items.add(item);
             }
         }

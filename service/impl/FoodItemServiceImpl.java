@@ -22,7 +22,6 @@ public class FoodItemServiceImpl implements FoodItemService {
     private final FoodItemRepoImpl foodItemRepo = FoodItemRepoImpl.getInstance();
     private final RestaurantServiceImpl restaurantService = RestaurantServiceImpl.getInstance();
 
-
     @Override
     public String addFoodItem(String restaurantId, String itemId, String itemName, String ownerPhone, String description, float itemPrice) {
 
@@ -95,32 +94,6 @@ public class FoodItemServiceImpl implements FoodItemService {
         }
     }
 
-    @Override
-    public List<String> listOfItemByRestaurantId(String restaurantId) {
-        Restaurant restaurant = restaurantService.findRestaurantByRestaurantId(restaurantId);
-        if (restaurant == null) {
-            System.out.println("Restaurant Not Found!!");
-            return null;
-        } else {
-            List<String> itemList = foodItemRepo.listOfItemByRestaurantId(restaurantId);
-            if (itemList.isEmpty()) {
-                System.out.println("There is not Item available in provided Restaurant");
-                return null;
-            } else {
-                return itemList;
-            }
-        }
-    }
-
-    @Override
-    public List<String> listOfItemNameWithPrice(String restaurantId) {
-        List<String> items = foodItemRepo.listOfItemNameWithPrice(restaurantId);
-        if (items.isEmpty()) {
-            System.out.println("There is no Item in Restaurant.");
-            return null;
-        }
-        return items;
-    }
 
     @Override
     public String getItemNameById(String foodItemId) {
@@ -133,12 +106,12 @@ public class FoodItemServiceImpl implements FoodItemService {
 
     @Override
     public float getPriceByItemId(String itemId) {
-        return foodItemRepo.itemPriceByItemId(itemId);
+        return foodItemRepo.getItemPriceByItemId(itemId);
     }
 
     @Override
-    public List<FoodItem> listOFItemNameWithItemId(String restaurantId) {
-        List<FoodItem> items = foodItemRepo.listOFItemNameWithItemId(restaurantId);
+    public List<FoodItem> listOfItemNameAndItemIdByRestaurant(String restaurantId) {
+        List<FoodItem> items = foodItemRepo.listOfItemNameAndItemIdByRestaurant(restaurantId);
         if (items.isEmpty()) {
             System.out.println("Not Items On This Restaurant....");
             return null;
@@ -174,8 +147,8 @@ public class FoodItemServiceImpl implements FoodItemService {
     }
 
     @Override
-    public FoodItem foodItems(String foodId) {
-        FoodItem items = foodItemRepo.foodItems(foodId);
+    public FoodItem getOrderedFoodItemByFoodId(String foodId) {
+        FoodItem items = foodItemRepo.findOrderedItemByFoodId(foodId);
         if (items == null) {
             System.out.println("Items not found!!");
             return null;
@@ -184,8 +157,8 @@ public class FoodItemServiceImpl implements FoodItemService {
     }
 
     @Override
-    public List<FoodItem> itemListByRestaurant(String restId) {
-        List<FoodItem> items = foodItemRepo.itemListByRestaurant(restId);
+    public List<FoodItem> getItemListByRestaurantId(String restId) {
+        List<FoodItem> items = foodItemRepo.getItemListByRestaurantId(restId);
         if (items.isEmpty()) {
             System.out.println("There is no item available");
             return null;

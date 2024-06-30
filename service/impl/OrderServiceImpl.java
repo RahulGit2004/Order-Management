@@ -27,7 +27,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public String placeOrder(String orderId, String customerId, String restaurantId, float totalPrice, List<FoodItem> items) {
-        Order order = new Order(orderId, customerId, restaurantId, totalPrice, "In-Progress",items);
+        Order order = new Order(orderId, customerId, restaurantId, totalPrice, "In-Progress", items);
         orderRepo.addOrder(order);
         return "Your Order is Successfully Placed.";
     }
@@ -46,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getOrderByRestaurantId(String restaurantId) {
         List<Order> orders = orderRepo.listOfOrderByRestaurantId(restaurantId);
-        if (orders.isEmpty()){
+        if (orders.isEmpty()) {
             System.out.println("No Orders In Your Restaurant!");
             return null;
         } else {
@@ -55,25 +55,6 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-    @Override
-    public List<String> getOrdersByCustomerId(String customerId) {
-        List<Order> orders = orderRepo.listOfOrderByCustomerId(customerId);
-        if (orders.isEmpty()){
-            System.out.println("There is No Orders Available.");
-            return null;
-        } else {
-            List<String> list = new ArrayList<>();
-            for (Order order: orders){
-//                list.add(order.getTotalPrice());
-                list.add(order.getStatus());
-                for (FoodItem item: order.getItemList()){
-                    list.add(item.getItemName());
-//                    list.add(item.getPrice());
-                }
-            }
-            return list;
-        }
-    }
 
     @Override
     public String updateOrderStatus(String restaurantId, String orderId, String status, String ownerId, String ownerPhone) {
@@ -85,11 +66,11 @@ public class OrderServiceImpl implements OrderService {
             if (restaurant == null) {
                 return "Restaurant Not Found!";
             } else {
-                Restaurant restaurantOwner = restaurantService.getRestaurantOwnerByPhoneAndRestaurantId(ownerPhone,restaurantId);
+                Restaurant restaurantOwner = restaurantService.getRestaurantOwnerByPhoneAndRestaurantId(ownerPhone, restaurantId);
                 if (restaurantOwner == null) {
                     return "You are not Owner Of this Restaurant.";
                 } else {
-                    orderRepo.updateOrderStatus(restaurantId,orderId,status);
+                    orderRepo.updateOrderStatus(restaurantId, orderId, status);
                     return "Order Updated Success.";
                 }
             }
@@ -108,7 +89,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> listOfOrderIdByRestaurantId(String restaurantId) {
         List<Order> orders = orderRepo.listOfOrderIdByRestaurantId(restaurantId);
-        if (orders.isEmpty()){
+        if (orders.isEmpty()) {
             System.out.println("There is No Order in Restaurants...");
             return null;
         }

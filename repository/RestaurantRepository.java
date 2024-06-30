@@ -18,21 +18,15 @@ public interface RestaurantRepository {
 
     Restaurant deleteRestaurant(String restaurantId);
 
-    List<String> listOfRestaurants();
-
     String getRestaurantNameById(String restaurantID);
 
     List<Restaurant> getAllRestaurantsByPhone(String phone);
 
     boolean isCorrectId(String restId);
 
-    Restaurant detailsOfRestaurant(String restaurantId);
+    Restaurant getDetailsOfRestaurantByRestaurantID(String restaurantId);
 
-    List<FoodItem> listOFItemNameWithItemId(String restaurantId);
-
-    List<Restaurant> listOFRestaurantWithId();
+    List<Restaurant> getListOfRestaurant();
 
     boolean isAvailableRestaurant(String phone);
-
-//    - `findByOwnerId(String ownerId)`
 }

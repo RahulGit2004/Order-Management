@@ -1,6 +1,5 @@
 package service;
 
-import model.FoodItem;
 import model.Restaurant;
 
 import java.util.List;
@@ -14,8 +13,6 @@ public interface RestaurantService {
 
     String deleteRestaurant(String phoneNumber, String restaurantId);
 
-    List<String> listOfRestaurants();
-
     Restaurant getRestaurantOwnerByPhoneAndRestaurantId(String ownerPhoneNumber, String restaurantId);
 
     Restaurant findRestaurantByRestaurantId(String restaurantId);
@@ -24,16 +21,11 @@ public interface RestaurantService {
 
     List<Restaurant> getAllRestaurantsByPhone(String phone);
 
-     boolean isCorrectId(String restId);//    - `createRestaurant(Restaurant restaurant)` (done)    ::-- ned to use
+    boolean isCorrectId(String restId);//    - `createRestaurant(Restaurant restaurant)` (done)    ::-- ned to use
 
-    Restaurant detailsOfRestaurant(String restaurantId, String ownerPhone);
+    Restaurant getDetailsOfRestaurantByRestaurantID(String restaurantId, String ownerPhone);
 
-    List<FoodItem> listOFItemNameWithItemId(String restaurantId);
-
-    List<Restaurant> listOFRestaurantWithId();
+    List<Restaurant> getListOfRestaurant();
 
     boolean isAvailableRestaurant(String phone);
-//            - `updateRestaurant(String restaurantId, Restaurant restaurant)`
-//            - `deleteRestaurant(String restaurantId)`
-//            - `getRestaurantsByOwnerId(String ownerId)`
 }

@@ -1,6 +1,4 @@
 package repository.impl;
-
-import model.FoodItem;
 import model.Restaurant;
 import repository.RestaurantRepository;
 
@@ -16,7 +14,6 @@ public class RestaurantRepoImpl implements RestaurantRepository {
         }
         return restaurantRepo;
     }
-
 
     private final List<Restaurant> restaurantList = new ArrayList<>();
 
@@ -81,17 +78,7 @@ public class RestaurantRepoImpl implements RestaurantRepository {
                 return restaurant;
             }
         }
-
         return null;
-    }
-
-    @Override
-    public List<String> listOfRestaurants() {
-        List<String> restaurants = new ArrayList<>();
-        for (Restaurant restaurant : restaurantList) {
-            restaurants.add(restaurant.getRestaurantName());
-        }
-        return restaurants;
     }
 
     @Override
@@ -128,7 +115,7 @@ public class RestaurantRepoImpl implements RestaurantRepository {
     }
 
     @Override
-    public Restaurant detailsOfRestaurant(String restaurantId) {
+    public Restaurant getDetailsOfRestaurantByRestaurantID(String restaurantId) {
         for (Restaurant restaurant : restaurantList) {
             if (restaurant.getRestaurantId().equals(restaurantId)) {
                 return restaurant;
@@ -138,17 +125,7 @@ public class RestaurantRepoImpl implements RestaurantRepository {
     }
 
     @Override
-    public List<FoodItem> listOFItemNameWithItemId(String restaurantId) {
-        for (Restaurant restaurant : restaurantList) {
-            if (restaurant.getRestaurantId().equals(restaurantId)) {
-                return restaurant.getItemList();
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public List<Restaurant> listOFRestaurantWithId() {
+    public List<Restaurant> getListOfRestaurant() {
         return restaurantList;
     }
 

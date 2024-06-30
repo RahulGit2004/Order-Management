@@ -18,6 +18,4 @@ public interface OrderRepository {
     List<Order> listOfOrderIdByRestaurantId(String restaurantId);
 
     boolean isCorrectOrderID(String orderID);
-//    - `findByCustomerId(String customerId)`
-//            - `findByRestaurantId(String restaurantId)`
 }

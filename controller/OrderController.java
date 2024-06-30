@@ -7,12 +7,16 @@ import service.impl.OrderServiceImpl;
 import java.util.List;
 
 public class OrderController {
+    private static OrderController orderController;
+    public static synchronized OrderController getInstance(){
+        if (orderController == null){
+            orderController = new OrderController();
+        }
+        return orderController;
+    }
 
-//    Place a new order (done)
-//    Get orders by customer
-//    Get orders by restaurant
-//    Update order status
-//      check order Status
+
+
 
     private final OrderServiceImpl orderService = OrderServiceImpl.getInstance();
 

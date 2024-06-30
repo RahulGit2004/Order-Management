@@ -1,6 +1,5 @@
 package service.impl;
 
-import model.FoodItem;
 import model.Restaurant;
 import model.User;
 import repository.impl.RestaurantRepoImpl;
@@ -82,15 +81,6 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public List<String> listOfRestaurants() {
-        List<String> restaurants = restaurantRepo.listOfRestaurants();
-        if (restaurants.isEmpty()) {
-            return null;
-        }
-        return restaurants;
-    }
-
-    @Override
     public Restaurant getRestaurantOwnerByPhoneAndRestaurantId(String ownerPhoneNumber, String restaurantId) {
         return restaurantRepo.getRestaurantOwnerByPhoneAndRestaurantId(ownerPhoneNumber, restaurantId);
     }
@@ -127,7 +117,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public Restaurant detailsOfRestaurant(String restaurantId, String ownerPhone) {
+    public Restaurant getDetailsOfRestaurantByRestaurantID(String restaurantId, String ownerPhone) {
         User owner = userService.findOwnerByPhoneNumber(ownerPhone);
         if (owner == null) {
             System.out.println("Sorry! You are not Authorize for this action....");
@@ -143,7 +133,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                     System.out.println("You are Not Owner Of This restaurant..");
                     return null;
                 } else {
-                    Restaurant restaurants = restaurantRepo.detailsOfRestaurant(restaurantId);
+                    Restaurant restaurants = restaurantRepo.getDetailsOfRestaurantByRestaurantID(restaurantId);
                     if (restaurants == null) {
                         System.out.println("No Details Available of This Restaurant....");
                         return null;
@@ -156,19 +146,9 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public List<FoodItem> listOFItemNameWithItemId(String restaurantId) {
-        List<FoodItem> items = restaurantRepo.listOFItemNameWithItemId(restaurantId);
-        if (items == null) {
-            System.out.println("There is no item in this Restaurant....");
-            return null;
-        }
-        return items;
-    }
-
-    @Override
-    public List<Restaurant> listOFRestaurantWithId() {
-        List<Restaurant> restaurants = restaurantRepo.listOFRestaurantWithId();
-        if (restaurants.isEmpty()){
+    public List<Restaurant> getListOfRestaurant() {
+        List<Restaurant> restaurants = restaurantRepo.getListOfRestaurant();
+        if (restaurants.isEmpty()) {
             System.out.println("There Is No Restaurant Created....");
             return null;
         }
